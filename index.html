@@ -110,8 +110,10 @@ a.card:hover,.card.hov:hover{transform:translate3d(0,-6px,0);background:rgba(0,3
 /* E-Board */
 .pgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:24px}
 .person{display:flex;flex-direction:column;height:100%}
-.photo{aspect-ratio:4/5;border-radius:16px;background:rgba(0,31,91,.5);border:1px solid rgba(114,169,190,.2);display:flex;align-items:center;justify-content:center;overflow:hidden}
+.photo{position:relative;aspect-ratio:4/5;border-radius:16px;background:rgba(0,31,91,.5);border:1px solid rgba(114,169,190,.2);display:flex;align-items:center;justify-content:center;overflow:hidden}
 .photo img{width:100%;height:100%;object-fit:cover;display:block}
+.photo .pflag{position:absolute;top:10px;right:10px;display:inline-flex;padding:4px;line-height:0;border-radius:9px;background:rgba(2,10,31,.55);border:1px solid rgba(255,255,255,.28);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+.photo .pflag img{width:28px;height:19px;border-radius:3px;object-fit:cover}
 .ini{font-size:44px;font-weight:700;color:rgba(114,169,190,.6)}
 .role{margin-top:14px;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--o)}
 .pname{margin-top:4px;font-size:22px;font-weight:600;line-height:1.15;letter-spacing:-.02em;color:#fff}
@@ -255,7 +257,7 @@ try { INITIAL = new URLSearchParams(location.search).get('page') || ''; } catch 
   var ROUTES = ['home', 'about', 'eboard', 'sponsors', 'alumni'];
   var DEFAULT_TIERS = { 1: 'Neil Armstrong', 2: 'Amelia Earhart', 3: 'Eugene Cernan', 4: 'Silver', 5: 'Bronze' };
   var TIER_ACCENT = { 1: '#F26534', 2: '#F0705A', 3: '#72A9BE', 4: '#B9C5E0', 5: '#D9A066' };
-  var BOARD_KEYS = ['president', 'vicepresident', 'treasurer', 'secretary'];
+  var BOARD_KEYS = ['president', 'vicepresident', 'treasurer', 'secretary', 'publicrelations'];
   var CANON = { president: 'President', vicepresident: 'Vice President', treasurer: 'Treasurer', secretary: 'Secretary' };
 
   var COUNTRIES = {
@@ -281,7 +283,7 @@ try { INITIAL = new URLSearchParams(location.search).get('page') || ''; } catch 
     });
   }
   function norm(s) { return String(s || '').normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().replace(/\s+/g, ' ').trim(); }
-  function key(s) { return norm(s).replace(/[^a-z]/g, ''); }
+  function key(s) { return norm(s).replace(/[^a-z]/g, '').replace(/officer$/, ''); }
   function canon(s) { return CANON[key(s)] || s; }
   function isEmail(s) { return /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(String(s || '').trim()); }
   function webUrl(u) {
@@ -341,8 +343,17 @@ try { INITIAL = new URLSearchParams(location.search).get('page') || ''; } catch 
   function reveal(html, i) { return '<div class="reveal" style="--d:' + ((i || 0) * 0.08).toFixed(2) + 's">' + html + '</div>'; }
   function loading() { return '<p class="status">' + (FAILED ? 'We could not load this section right now. Please try again later.' : 'Loading…') + '</p>'; }
 
+  function flagCode(pais) {
+    var k = norm(pais);
+    return COUNTRIES[k] || (/^[a-z]{2}$/.test(k) ? k : '');
+  }
+  function flagBadge(pais) {
+    var code = flagCode(pais);
+    if (!code) return '';
+    return '<span class="pflag" title="' + esc(pais) + '"><img src="https://flagcdn.com/w40/' + code + '.png" srcset="https://flagcdn.com/w80/' + code + '.png 2x" alt="' + esc(pais) + '" data-hide-on-error="1"></span>';
+  }
   function flagHtml(pais) {
-    var k = norm(pais), code = COUNTRIES[k] || (/^[a-z]{2}$/.test(k) ? k : '');
+    var code = flagCode(pais);
     if (!code) return esc(pais);
     return '<img src="https://flagcdn.com/w40/' + code + '.png" srcset="https://flagcdn.com/w80/' + code + '.png 2x" alt="" data-hide-on-error="1">' + esc(pais);
   }
@@ -414,21 +425,35 @@ try { INITIAL = new URLSearchParams(location.search).get('page') || ''; } catch 
     var links = '';
     if (isEmail(p.correo)) links += '<a href="mailto:' + esc(p.correo) + '" target="_top">Email</a>';
     if (webUrl(p.linkedin)) links += '<a href="' + esc(webUrl(p.linkedin)) + '" target="_blank" rel="noopener">LinkedIn</a>';
-    var btn = boardKey ? '<button class="btn2 sm pboard" type="button" data-open-board="' + boardKey + '">' + esc(canon(p.cargo)) + '\'s Board</button>' : '';
-    var sub = (!boardKey && p.board && !isExec(p)) ? '<span class="role" style="margin-top:6px;color:#7F8CAA;text-transform:none;letter-spacing:0;font-weight:500;font-size:13px">' + esc(canon(p.board)) + '\'s Board</span>' : '';
-    return '<div class="person"><div class="photo">' + photo + '</div><span class="role">' + esc(canon(p.cargo)) + '</span><span class="pname">' + esc(p.nombre) + '</span>' + (p.major ? '<span class="pmajor">' + esc(p.major) + '</span>' : '') + sub + bio + (links ? '<div class="contact">' + links + '</div>' : '') + btn + '</div>';
+    var btn = boardKey ? '<button class="btn2 sm pboard" type="button" data-open-board="' + boardKey + '">' + esc(boardName(p.cargo)) + '</button>' : '';
+    var sub = (!boardKey && p.board && !isExec(p)) ? '<span class="role" style="margin-top:6px;color:#7F8CAA;text-transform:none;letter-spacing:0;font-weight:500;font-size:13px">' + esc(boardsOf(p).map(function (b) { return boardName(b.raw); }).join(' · ')) + '</span>' : '';
+    return '<div class="person"><div class="photo">' + photo + flagBadge(p.pais) + '</div><span class="role">' + esc(canon(p.cargo)) + '</span><span class="pname">' + esc(p.nombre) + '</span>' + (p.major ? '<span class="pmajor">' + esc(p.major) + '</span>' : '') + sub + bio + (links ? '<div class="contact">' + links + '</div>' : '') + btn + '</div>';
   }
   function isExec(p) { return norm(p.grupo) === 'executive'; }
 
+  // Una persona puede pertenecer a más de un board: "Treasurer, Secretary" (separados por coma, & o "and")
+  function boardsOf(p) {
+    return String(p.board || '').split(/\s*(?:,|&|\/|\band\b)\s*/i)
+      .map(function (s) { return s.trim(); }).filter(Boolean)
+      .map(function (raw) { return { key: key(raw), raw: raw }; });
+  }
+  function boardName(raw) {
+    var n = canon(raw).replace(/\s+officer$/i, '');
+    return /s$/i.test(n) ? n + ' Board' : n + '\'s Board';
+  }
   function boardKeysOf(dirs) {
-    var seen = {}, out = [];
-    BOARD_KEYS.forEach(function (k) { if (dirs.some(function (d) { return key(d.board) === k; })) { seen[k] = 1; out.push(k); } });
-    dirs.forEach(function (d) { var k = key(d.board); if (k && !seen[k]) { seen[k] = 1; out.push(k); } });
+    var seen = {}, out = [], all = [];
+    dirs.forEach(function (d) { boardsOf(d).forEach(function (b) { all.push(b.key); }); });
+    BOARD_KEYS.forEach(function (k) { if (all.indexOf(k) >= 0) { seen[k] = 1; out.push(k); } });
+    all.forEach(function (k) { if (k && !seen[k]) { seen[k] = 1; out.push(k); } });
     return out;
   }
   function boardLabel(k, dirs) {
-    var d = dirs.filter(function (x) { return key(x.board) === k; })[0];
-    return canon(d ? d.board : k) + '\'s Board';
+    var raw = k;
+    dirs.some(function (d) {
+      return boardsOf(d).some(function (b) { if (b.key === k) { raw = b.raw; return true; } return false; });
+    });
+    return boardName(raw);
   }
 
   function fillEboard() {
@@ -454,7 +479,7 @@ try { INITIAL = new URLSearchParams(location.search).get('page') || ''; } catch 
     chips.innerHTML = boards.length ? ['all'].concat(boards).map(function (k) {
       return '<button type="button" class="chip' + (S.filter === k ? ' on' : '') + '" data-filter="' + k + '">' + (k === 'all' ? 'All' : esc(boardLabel(k, dirs))) + '</button>';
     }).join('') : '';
-    var list = dirs.filter(function (d) { return S.filter === 'all' || key(d.board) === S.filter; });
+    var list = dirs.filter(function (d) { return S.filter === 'all' || boardsOf(d).some(function (b) { return b.key === S.filter; }); });
     grid.innerHTML = list.length ? list.map(function (p, i) { return reveal(personHtml(p, ''), i % 6); }).join('') : '<p class="status">No directors yet.</p>';
     afterFill();
   }
@@ -566,7 +591,11 @@ try { INITIAL = new URLSearchParams(location.search).get('page') || ''; } catch 
     });
     $$('img[data-hide-on-error]:not([data-w])').forEach(function (img) {
       img.setAttribute('data-w', '1');
-      img.addEventListener('error', function () { img.style.display = 'none'; });
+      img.addEventListener('error', function () {
+        img.style.display = 'none';
+        var w = img.parentNode;
+        if (w && w.classList && w.classList.contains('pflag')) w.style.display = 'none';
+      });
     });
     cards = $$('.card');
     applyConfig();
