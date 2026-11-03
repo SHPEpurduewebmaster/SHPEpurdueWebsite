@@ -54,11 +54,11 @@ main.out{opacity:0}
 
 /* Barra de navegación */
 .nav-wrap{padding:22px 24px 0}
-.nav{max-width:1160px;margin:0 auto;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px;padding:12px 12px 12px 26px;border-radius:999px;background:rgba(8,18,48,.5);border:1px solid rgba(255,255,255,.1);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px)}
+.nav{max-width:1160px;margin:0 auto;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px;padding:14px 14px 14px 30px;border-radius:999px;background:rgba(8,18,48,.5);border:1px solid rgba(255,255,255,.1);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px)}
 .brand{display:flex;align-items:center;gap:16px}
-.sep{width:1px;height:28px;background:rgba(255,255,255,.18)}
-.logo-slot{display:inline-flex;align-items:center;justify-content:center;height:40px;border:1px dashed rgba(255,255,255,.35);border-radius:8px;color:var(--mut);font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase}
-.logo-img{display:inline-flex;align-items:center;height:40px}
+.sep{width:1px;height:38px;background:rgba(255,255,255,.18)}
+.logo-slot{display:inline-flex;align-items:center;justify-content:center;height:56px;border:1px dashed rgba(255,255,255,.35);border-radius:8px;color:var(--mut);font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase}
+.logo-img{display:inline-flex;align-items:center;height:56px}
 .logo-img img{height:100%;width:auto;display:block}
 .links{display:flex;flex-wrap:wrap;align-items:center;gap:26px;font-size:14px;font-weight:500;color:#B9C5E0}
 .links a{transition:color .25s ease;padding-bottom:4px;border-bottom:2px solid transparent}
@@ -162,6 +162,33 @@ a.stile:hover{border-color:rgba(255,255,255,.7)}
 .alink{align-self:flex-start;display:inline-block;padding:8px 0;font-size:14px;font-weight:600;color:#D5DDF0;transition:color .25s ease}
 .alink:hover{color:var(--o)}
 
+
+/* Franja de nombres (Sponsors) */
+.pill.nm{height:52px;font-size:17px;transition:border-color .3s ease,color .3s ease,background .3s ease}
+a.pill.nm:hover{border-color:#fff;color:#fff;background:rgba(255,255,255,.1)}
+
+/* Highlights */
+.hgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,400px),1fr));gap:20px}
+.hcard{padding:0;gap:0;overflow:hidden;height:100%}
+.hph{position:relative;aspect-ratio:16/10;background:rgba(0,31,91,.55);display:flex;align-items:center;justify-content:center;overflow:hidden}
+.hph img{width:100%;height:100%;object-fit:cover;display:block}
+.hbody{display:flex;flex-direction:column;gap:8px;padding:22px 24px 26px}
+.htag{font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--o)}
+.htitle{font-size:24px;font-weight:600;line-height:1.15;letter-spacing:-.02em;color:#fff}
+.hmeta{display:flex;flex-wrap:wrap;align-items:center;gap:10px;font-size:13px;color:var(--lb)}
+.hco{display:inline-flex;align-items:center;padding:4px 10px;border-radius:8px;background:#fff}
+.hco img{height:18px;max-width:84px;object-fit:contain;display:block}
+.hdesc{margin:4px 0 0;font-size:15px;line-height:1.6;color:var(--mut);display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden}
+.hdesc.open{display:block}
+.hfeat{display:grid;grid-template-columns:1.15fr 1fr;padding:0;gap:0;overflow:hidden;height:auto;margin-bottom:64px}
+.hfeat .hph{aspect-ratio:auto;min-height:320px}
+.hfeat .hbody{justify-content:center;padding:36px}
+.hfeat .htitle{font-size:34px;letter-spacing:-.03em}
+.hfeat .hdesc{font-size:17px;-webkit-line-clamp:6}
+.hsec{margin-top:56px}
+.hsec .h2{margin-bottom:6px}
+.hsub{margin:0 0 22px;max-width:640px;font-size:16px;line-height:1.5;color:var(--mut)}
+
 /* Bloque final y pie */
 .cta{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:28px;padding:48px;border-radius:28px;background:rgba(0,31,91,.4);border:1px solid rgba(114,169,190,.22);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
 .cta h2{margin:0;font-size:clamp(30px,4vw,48px);line-height:1.05;letter-spacing:-.035em;font-weight:700;color:#fff}
@@ -178,7 +205,15 @@ footer{margin-top:72px}
 
 @media (max-width:900px){
   .nav{border-radius:28px;padding:14px}
+  .logo-slot,.logo-img{height:44px}
+  .logo-slot{width:auto!important;min-width:96px;padding:0 10px}
+  .sep{height:30px}
+  .brand{gap:12px}
+  .hfeat{grid-template-columns:1fr!important}
   .links{order:3;width:100%;justify-content:center;gap:20px}
+}
+@media (max-width:520px){
+  .links{gap:12px;font-size:13px}
 }
 @media (prefers-reduced-motion:reduce){
   *{animation:none!important;transition:none!important}
@@ -191,21 +226,21 @@ footer{margin-top:72px}
 <div id="glow" aria-hidden="true"></div>
 <svg class="grain" aria-hidden="true"><filter id="grain"><feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" stitchTiles="stitch"></feTurbulence></filter><rect width="100%" height="100%" filter="url(#grain)"></rect></svg>
 
-<noscript><p style="position:relative;z-index:5;padding:24px;color:#E8EDF7;font-family:sans-serif">SHPE Purdue is the Purdue University chapter of the Society of Hispanic Professional Engineers. Please enable JavaScript to see our E-Board, sponsors and alumni.</p></noscript>
+<noscript><p style="position:relative;z-index:5;padding:24px;color:#E8EDF7;font-family:sans-serif">SHPE Purdue is the Purdue University chapter of the Society of Hispanic Professional Engineers. Please enable JavaScript to see our E-Board, sponsors, highlights and alumni.</p></noscript>
 <div class="page">
   <header class="nav-wrap">
     <nav class="nav drop" aria-label="Main">
       <div class="brand">
-        <a id="logo-shpe" class="logo-slot" href="#/home" data-route="home" aria-label="SHPE Purdue home" style="width:150px">SHPE logo</a>
+        <a id="logo-shpe" class="logo-slot" href="#/home" data-route="home" aria-label="SHPE Purdue home" style="width:210px">SHPE logo</a>
         <span class="sep" aria-hidden="true"></span>
-        <a id="logo-purdue" class="logo-slot" href="https://www.purdue.edu" target="_blank" rel="noopener" aria-label="Purdue University" style="width:110px">Purdue logo</a>
+        <a id="logo-purdue" class="logo-slot" href="https://www.purdue.edu" target="_blank" rel="noopener" aria-label="Purdue University" style="width:150px">Purdue logo</a>
       </div>
       <div class="links">
         <a href="#/about" data-route="about">About</a>
         <a href="#/eboard" data-route="eboard">E-Board</a>
         <a href="#/sponsors" data-route="sponsors">Sponsors</a>
         <a href="#/alumni" data-route="alumni">Alumni</a>
-        <a href="#" data-cfg="events_url" target="_blank" rel="noopener">Events</a>
+        <a href="#/highlights" data-route="highlights">Highlights</a>
       </div>
       <div class="right">
         <a class="ico" href="#" data-cfg="instagram_url" target="_blank" rel="noopener" aria-label="SHPE Purdue on Instagram">
@@ -254,7 +289,7 @@ try { INITIAL = new URLSearchParams(location.search).get('page') || ''; } catch 
     mission: '',
     vision: 'A place where Hispanics at Purdue are highly valued and influential.'
   };
-  var ROUTES = ['home', 'about', 'eboard', 'sponsors', 'alumni'];
+  var ROUTES = ['home', 'about', 'eboard', 'sponsors', 'alumni', 'highlights'];
   var DEFAULT_TIERS = { 1: 'Neil Armstrong', 2: 'Amelia Earhart', 3: 'Eugene Cernan', 4: 'Silver', 5: 'Bronze' };
   var TIER_ACCENT = { 1: '#F26534', 2: '#F0705A', 3: '#72A9BE', 4: '#B9C5E0', 5: '#D9A066' };
   var BOARD_KEYS = ['president', 'vicepresident', 'treasurer', 'secretary', 'publicrelations'];
@@ -272,7 +307,7 @@ try { INITIAL = new URLSearchParams(location.search).get('page') || ''; } catch 
 
   var DATA = null;
   var FAILED = false;
-  var S = { route: 'home', filter: 'all', q: '' };
+  var S = { route: 'home', filter: 'all', q: '', hl: 'all' };
 
   // ---------- Utilidades ----------
   function $(s, el) { return (el || document).querySelector(s); }
@@ -399,10 +434,17 @@ try { INITIAL = new URLSearchParams(location.search).get('page') || ''; } catch 
     sponsors: function () {
       return hero('Our sponsors', 'Companies that invest<span class="o"> in our members.</span>',
           'Collaborative events such as workshops, interview exercises and information sessions connect our members with the opportunities that follow.') +
+        '<section class="wrap" style="margin-top:44px" id="nbelt-sec" hidden><div class="marq rise" style="animation-delay:1.1s" id="nbelt"></div></section>' +
         '<section class="wrap sec"><div id="tiers">' + loading() + '</div></section>' +
         '<section class="wrap sec">' + reveal(
           '<div class="cta"><div style="flex:1 1 420px"><h2>Partner with SHPE Purdue.</h2><p>Build a positive corporate presence with our talented and diverse members.</p></div>' +
           '<a class="btn1 lg" href="#" data-cfg="sponsor_mail" target="_top">Get in touch</a></div>') + '</section>';
+    },
+
+    highlights: function () {
+      return hero('Highlights', 'What we do<span class="o"> as a chapter.</span>',
+          'A look at the events that bring our members together: company events, community, service and coffee breaks.') +
+        '<section class="wrap sec" style="margin-top:48px"><div id="hlchips" class="chips"></div><div id="hlfeat"></div><div id="hlsecs">' + loading() + '</div></section>';
     },
 
     alumni: function () {
@@ -524,6 +566,90 @@ try { INITIAL = new URLSearchParams(location.search).get('page') || ''; } catch 
     sec.hidden = false;
   }
 
+
+  // ---------- Highlights ----------
+  var HL_TYPES = [
+    { k: 'company', label: 'Company events', tag: 'Company event', desc: 'Hosted by companies: workshops, resume reviews and conversations with professionals.' },
+    { k: 'social', label: 'Social events', tag: 'Social event', desc: 'Events that bring the chapter together and strengthen our community.' },
+    { k: 'service', label: 'Service events', tag: 'Service event', desc: 'Giving back to the community beyond campus.' },
+    { k: 'coffee', label: 'Coffee breaks', tag: 'Coffee break', desc: 'Relaxed get-togethers at our office, sometimes with company guests.' },
+    { k: 'other', label: 'More highlights', tag: 'Event', desc: '' }
+  ];
+  function hlKey(t) {
+    var n = norm(t);
+    if (/compan/.test(n)) return 'company';
+    if (/social/.test(n)) return 'social';
+    if (/serv/.test(n)) return 'service';
+    if (/coffee|cafe/.test(n)) return 'coffee';
+    return 'other';
+  }
+  function hlType(k) { for (var i = 0; i < HL_TYPES.length; i++) if (HL_TYPES[i].k === k) return HL_TYPES[i]; return HL_TYPES[4]; }
+  function termRank(sem) {
+    var n = norm(sem), t = /spring/.test(n) ? 1 : /summer/.test(n) ? 2 : /fall|autumn/.test(n) ? 3 : 0;
+    return endYear(sem) * 10 + t;
+  }
+  function sponsorLogo(name) {
+    var n = norm(name), list = (DATA && DATA.sponsors) || [];
+    for (var i = 0; i < list.length; i++) if (list[i].logo && norm(list[i].nombre) === n) return list[i].logo;
+    return '';
+  }
+  function hlBody(h, big) {
+    var meta = [];
+    if (h.semestre) meta.push('<span>' + esc(h.semestre) + '</span>');
+    if (h.empresa) {
+      var lg = sponsorLogo(h.empresa);
+      meta.push(lg ? '<span class="hco"><img src="' + esc(lg) + '" alt="' + esc(h.empresa) + '" data-hide-on-error="1"></span>' : '<span>' + esc(h.empresa) + '</span>');
+    }
+    var d = String(h.descripcion || '').trim();
+    return '<div class="hbody"><span class="htag">' + esc(hlType(hlKey(h.tipo)).tag) + '</span>' +
+      '<span class="htitle">' + esc(h.titulo) + '</span>' +
+      (meta.length ? '<div class="hmeta">' + meta.join('<span aria-hidden="true">·</span>') + '</div>' : '') +
+      (d ? '<p class="hdesc">' + esc(d) + '</p>' + (d.length > (big ? 330 : 170) ? '<button class="more" type="button" data-more>Read more</button>' : '') : '') +
+      '</div>';
+  }
+  function hlPhoto(h) {
+    return '<div class="hph">' + (h.foto ? '<img src="' + esc(h.foto) + '" alt="' + esc(h.titulo) + '" loading="lazy" data-fallback="">' : '') + '</div>';
+  }
+  function fillHighlights() {
+    var box = $('#hlsecs'), chips = $('#hlchips'), feat = $('#hlfeat');
+    if (!box || !DATA) return;
+    var list = (DATA.highlights || []).map(function (h, i) { h._i = i; return h; })
+      .sort(function (a, b) { return (termRank(b.semestre) - termRank(a.semestre)) || (a._i - b._i); });
+    if (!list.length) { chips.innerHTML = ''; feat.innerHTML = ''; box.innerHTML = '<p class="status">Highlights are coming soon.</p>'; return; }
+    var groups = {};
+    list.forEach(function (h) { var k = hlKey(h.tipo); (groups[k] = groups[k] || []).push(h); });
+    var present = HL_TYPES.filter(function (t) { return groups[t.k]; });
+    if (S.hl !== 'all' && !groups[S.hl]) S.hl = 'all';
+    chips.innerHTML = '<button class="chip' + (S.hl === 'all' ? ' on' : '') + '" type="button" data-hl="all">All</button>' +
+      present.map(function (t) { return '<button class="chip' + (S.hl === t.k ? ' on' : '') + '" type="button" data-hl="' + t.k + '">' + esc(t.label) + '</button>'; }).join('');
+    var f = null;
+    if (S.hl === 'all') list.some(function (h) { if (h.destacado) { f = h; return true; } return false; });
+    feat.innerHTML = f ? reveal('<div class="card hov hfeat">' + hlPhoto(f) + hlBody(f, true) + '</div>') : '';
+    box.innerHTML = present.filter(function (t) { return S.hl === 'all' || S.hl === t.k; }).map(function (t) {
+      var items = groups[t.k];
+      return '<div class="hsec"><h2 class="h2 reveal">' + esc(t.label) + '</h2>' + (t.desc ? '<p class="hsub reveal">' + esc(t.desc) + '</p>' : '') +
+        '<div class="hgrid">' + items.map(function (h, i) { return reveal('<div class="card hov hcard">' + hlPhoto(h) + hlBody(h, false) + '</div>', i % 4); }).join('') + '</div></div>';
+    }).join('');
+    afterFill();
+  }
+
+  // ---------- Franja de nombres (Sponsors) ----------
+  function fillNamesBelt() {
+    var sec = $('#nbelt-sec'), box = $('#nbelt');
+    if (!sec || !box || !DATA) return;
+    var items = (DATA.sponsors || []).filter(function (s) { return !/^coming soon/i.test(s.nombre); })
+      .sort(function (a, b) { return (a.nivel || 99) - (b.nivel || 99); });
+    if (!items.length) { sec.hidden = true; return; }
+    var base = items.slice();
+    while (base.length < 12) base = base.concat(items);
+    var html = base.map(function (s) {
+      var url = webUrl(s.sitio);
+      return url ? '<a class="pill nm" href="' + esc(url) + '" target="_blank" rel="noopener">' + esc(s.nombre) + '</a>' : '<span class="pill nm">' + esc(s.nombre) + '</span>';
+    }).join('');
+    box.innerHTML = '<div class="track">' + html + html + '</div>';
+    sec.hidden = false;
+  }
+
   function fillAbout() {
     var el = $('#mv');
     if (!el) return;
@@ -562,10 +688,10 @@ try { INITIAL = new URLSearchParams(location.search).get('page') || ''; } catch 
   function hydrate() {
     applyConfig();
     if (!DATA) {
-      if (FAILED) { fillEboard(); var t = $('#tiers'); if (t) t.innerHTML = loading(); var a = $('#agrid'); if (a) a.innerHTML = loading(); }
+      if (FAILED) { fillEboard(); var t = $('#tiers'); if (t) t.innerHTML = loading(); var a = $('#agrid'); if (a) a.innerHTML = loading(); var hh = $('#hlsecs'); if (hh) hh.innerHTML = loading(); }
       return;
     }
-    fillMarquee(); fillAbout(); fillEboard(); fillSponsors(); fillAlumni();
+    fillMarquee(); fillNamesBelt(); fillAbout(); fillEboard(); fillSponsors(); fillHighlights(); fillAlumni();
   }
 
   // ---------- Reveal, tarjetas y glow ----------
@@ -665,6 +791,8 @@ try { INITIAL = new URLSearchParams(location.search).get('page') || ''; } catch 
     var t = e.target;
     var r = t.closest && t.closest('[data-route]');
     if (r) { e.preventDefault(); go(r.getAttribute('data-route'), true); return; }
+    var hl = t.closest && t.closest('[data-hl]');
+    if (hl) { S.hl = hl.getAttribute('data-hl'); fillHighlights(); return; }
     var f = t.closest && t.closest('[data-filter]');
     if (f) { S.filter = f.getAttribute('data-filter'); fillDirectors(); return; }
     var ob = t.closest && t.closest('[data-open-board]');
@@ -689,7 +817,7 @@ try { INITIAL = new URLSearchParams(location.search).get('page') || ''; } catch 
   draw(false);
 
   // Carga de datos: muestra al instante la última copia guardada y la actualiza en segundo plano
-  var CACHE_KEY = 'shpe_site_data_v1';
+  var CACHE_KEY = 'shpe_site_data_v2';
   var cachedStr = '';
   try {
     cachedStr = localStorage.getItem(CACHE_KEY) || '';

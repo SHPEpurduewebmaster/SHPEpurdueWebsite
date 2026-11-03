@@ -3,7 +3,9 @@
 Static site (`index.html`) + a small Google Apps Script API (`Code.gs`) that reads the chapter's Google Sheet.
 
 ## How it fits together
-- **Content** lives in the Google Sheet "SHPE Purdue - Datos" (tabs: Eboard, Sponsors, Alumni, optional Niveles and Contenido).
+- **Content** lives in the Google Sheet "SHPE Purdue - Datos" (tabs: Eboard, Sponsors, Alumni, Highlights, optional Niveles and Contenido).
+- **Highlights tab** columns: Titulo, Tipo (Company Event / Social Event / Service Event / Coffee Break), Semestre (e.g. Fall 2026), Descripcion, Foto (file name in the images folder; if empty, a file named like the Titulo), Empresa (matches a sponsor Nombre to show its logo), Destacado (`si` = big featured card). Newest semester first.
+- **Sponsors page** shows a names belt (links to each sponsor's Sitio) built from the Sponsors tab; "Coming Soon" rows are skipped.
 - **Images** live in the Drive folder "SHPE Web - Imagenes" (shared as "anyone with the link can view").
   Name each file after the person (`First Last`), the company (`Company Name`), or `logo-shpe` / `logo-purdue`.
 - **Apps Script** (`Code.gs`, owned by the SHPE Google account) returns the Sheet as JSON.
