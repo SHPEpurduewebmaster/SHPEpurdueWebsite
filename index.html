@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SHPE Purdue</title>
+<meta name="description" content="SHPE Purdue: the home for Hispanics in STEM in the Purdue community. Meet our E-Board, sponsors and alumni.">
+<meta name="theme-color" content="#020a1f">
+<meta property="og:type" content="website">
+<meta property="og:title" content="SHPE Purdue">
+<meta property="og:description" content="Leading Hispanics in STEM at Purdue.">
+<meta name="twitter:card" content="summary">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--o:#F26534;--b:#1870B8;--lb:#72A9BE;--ink:#E8EDF7;--mut:#A9B6D3;--dim:#7F8CAA}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:#020a1f;color:var(--ink);font-family:'Inter',system-ui,-apple-system,'Segoe UI',Roboto,Arial,sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit}
+
+/* Fondo: luces ambientales, resplandor del mouse y grano */
+.bg{position:fixed;inset:0;overflow:hidden;pointer-events:none;z-index:0}
+.blob{position:absolute;border-radius:50%;filter:blur(90px)}
+.b1{width:720px;height:720px;right:-160px;top:-200px;background:#1870B8;opacity:.5;animation:driftA 24s ease-in-out infinite alternate}
+.b2{width:620px;height:620px;left:-200px;top:30%;background:#F26534;opacity:.28;animation:driftB 28s ease-in-out infinite alternate}
+.b3{width:520px;height:520px;left:38%;bottom:-160px;background:#001F5B;opacity:.9;animation:driftA 32s ease-in-out infinite alternate-reverse}
+@keyframes driftA{from{transform:translate3d(0,0,0) scale(1)}to{transform:translate3d(-90px,70px,0) scale(1.18)}}
+@keyframes driftB{from{transform:translate3d(0,0,0) scale(1)}to{transform:translate3d(120px,-60px,0) scale(1.12)}}
+#glow{position:fixed;left:0;top:0;width:560px;height:560px;margin:-280px 0 0 -280px;border-radius:50%;pointer-events:none;z-index:1;mix-blend-mode:screen;will-change:transform;opacity:0;transition:opacity .8s ease;background:radial-gradient(circle,rgba(242,101,52,.26) 0%,rgba(24,112,184,.12) 42%,rgba(2,10,31,0) 70%)}
+.grain{position:fixed;left:0;top:0;width:100%;height:100%;opacity:.14;pointer-events:none;z-index:2;mix-blend-mode:overlay}
+
+.page{position:relative;z-index:3;min-height:100vh;display:flex;flex-direction:column}
+main{flex:1;transition:opacity .22s ease}
+main.out{opacity:0}
+.wrap{max-width:1160px;margin:0 auto;padding:0 24px;width:100%}
+
+/* Animaciones de entrada */
+@keyframes rise{from{opacity:0;transform:translate3d(0,40px,0);filter:blur(12px)}to{opacity:1;transform:translate3d(0,0,0);filter:blur(0)}}
+@keyframes drop{from{opacity:0;transform:translate3d(0,-24px,0);filter:blur(8px)}to{opacity:1;transform:translate3d(0,0,0);filter:blur(0)}}
+@keyframes slide{from{transform:translate3d(0,0,0)}to{transform:translate3d(-50%,0,0)}}
+.rise{animation:rise 1.5s cubic-bezier(.16,1,.3,1) backwards}
+.drop{animation:drop 1.3s cubic-bezier(.16,1,.3,1) backwards}
+.reveal{opacity:0;transform:translate3d(0,36px,0);transition:opacity 1s cubic-bezier(.16,1,.3,1),transform 1.1s cubic-bezier(.16,1,.3,1);transition-delay:var(--d,0s)}
+.reveal.in{opacity:1;transform:none}
+
+/* Barra de navegación */
+.nav-wrap{padding:22px 24px 0}
+.nav{max-width:1160px;margin:0 auto;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px;padding:12px 12px 12px 26px;border-radius:999px;background:rgba(8,18,48,.5);border:1px solid rgba(255,255,255,.1);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px)}
+.brand{display:flex;align-items:center;gap:16px}
+.sep{width:1px;height:28px;background:rgba(255,255,255,.18)}
+.logo-slot{display:inline-flex;align-items:center;justify-content:center;height:40px;border:1px dashed rgba(255,255,255,.35);border-radius:8px;color:var(--mut);font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase}
+.logo-img{display:inline-flex;align-items:center;height:40px}
+.logo-img img{height:100%;width:auto;display:block}
+.links{display:flex;flex-wrap:wrap;align-items:center;gap:26px;font-size:14px;font-weight:500;color:#B9C5E0}
+.links a{transition:color .25s ease;padding-bottom:4px;border-bottom:2px solid transparent}
+.links a:hover{color:#fff}
+.links a.on{color:#fff;border-bottom-color:var(--o)}
+.right{display:flex;align-items:center;gap:10px}
+.ico{display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;border-radius:50%;border:1px solid rgba(255,255,255,.18);color:#B9C5E0;transition:border-color .3s ease,color .3s ease,background .3s ease}
+.ico:hover{border-color:#fff;color:#fff;background:rgba(255,255,255,.08)}
+.btn1{display:inline-block;padding:13px 22px;border-radius:999px;background:var(--o);color:#020a1f;font-weight:600;font-size:14px;transition:transform .3s ease,box-shadow .3s ease}
+.btn1:hover{transform:translate3d(0,-2px,0);box-shadow:0 10px 40px rgba(242,101,52,.45)}
+.btn1.lg{padding:15px 28px;font-size:16px}
+.btn2{display:inline-block;padding:14px 28px;border-radius:999px;border:1px solid rgba(255,255,255,.3);background:transparent;color:#fff;font-weight:600;font-size:16px;cursor:pointer;transition:border-color .3s ease,background .3s ease}
+.btn2:hover{border-color:#fff;background:rgba(255,255,255,.08)}
+.btn2.sm{padding:11px 16px;font-size:13px}
+
+/* Tipografía y secciones */
+.hero{padding-top:110px}
+.hero.home{padding-top:120px}
+.eyebrow{margin:0 0 22px;font-size:13px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--lb)}
+.h1{margin:0;max-width:960px;font-size:clamp(40px,6.6vw,92px);line-height:1;letter-spacing:-.045em;font-weight:700;color:#fff}
+.h1.big{font-size:clamp(44px,7.4vw,100px);line-height:.98}
+.block{display:block}
+.o{color:var(--o)}
+.lead{margin:28px 0 0;max-width:680px;font-size:20px;line-height:1.55;color:var(--mut)}
+.actions{display:flex;flex-wrap:wrap;gap:14px;margin-top:36px}
+.sec{margin-top:64px}
+.h2{margin:0 0 24px;font-size:30px;letter-spacing:-.03em;font-weight:700;color:#fff}
+.label{margin:0 0 16px;font-size:12px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--dim)}
+.status{padding:40px 0;color:var(--mut);font-size:17px}
+
+/* Tarjetas de vidrio con borde que se ilumina cerca del mouse */
+.card{position:relative;box-sizing:border-box;display:flex;flex-direction:column;gap:10px;padding:28px;border-radius:20px;background:rgba(0,31,91,.35);border:1px solid rgba(114,169,190,.18);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);transition:transform .5s cubic-bezier(.2,.8,.2,1),background .35s ease,border-color .35s ease;height:100%}
+.card::before{content:"";position:absolute;inset:-1px;border-radius:inherit;padding:1px;background:radial-gradient(300px circle at var(--mx,50%) var(--my,50%),rgba(255,255,255,.85),rgba(255,255,255,0) 65%);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask:linear-gradient(#000 0 0) content-box exclude,linear-gradient(#000 0 0);opacity:var(--p,0);pointer-events:none}
+a.card:hover,.card.hov:hover{transform:translate3d(0,-6px,0);background:rgba(0,31,91,.55);border-color:rgba(255,255,255,.4)}
+.num{font-size:12px;font-weight:600;letter-spacing:.16em;color:var(--lb)}
+.ctitle{font-size:24px;font-weight:600;letter-spacing:-.02em;color:#fff}
+.ctext{font-size:15px;line-height:1.55;color:var(--mut)}
+.more-link{margin-top:8px;font-size:14px;font-weight:600;color:var(--o)}
+.grid3{display:flex;flex-wrap:wrap;gap:20px}
+.grid3>*{flex:1 1 300px}
+
+/* Sponsors en movimiento */
+.marq{overflow:hidden;margin:0 -24px;padding:6px 0;-webkit-mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent);mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent)}
+.track{display:flex;width:max-content;animation:slide 60s linear infinite}
+.pill{display:inline-flex;align-items:center;justify-content:center;height:60px;margin-right:14px;padding:0 26px;border-radius:999px;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.04);color:#D5DDF0;font-weight:600;font-size:16px;white-space:nowrap}
+.pill.logo{background:#fff;border-color:#fff;padding:0 22px}
+.pill.logo img{height:34px;max-width:150px;object-fit:contain;display:block}
+
+/* E-Board */
+.pgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:24px}
+.person{display:flex;flex-direction:column;height:100%}
+.photo{aspect-ratio:4/5;border-radius:16px;background:rgba(0,31,91,.5);border:1px solid rgba(114,169,190,.2);display:flex;align-items:center;justify-content:center;overflow:hidden}
+.photo img{width:100%;height:100%;object-fit:cover;display:block}
+.ini{font-size:44px;font-weight:700;color:rgba(114,169,190,.6)}
+.role{margin-top:14px;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--o)}
+.pname{margin-top:4px;font-size:22px;font-weight:600;line-height:1.15;letter-spacing:-.02em;color:#fff}
+.bio{margin:10px 0 0;font-size:14px;line-height:1.55;color:#9FB0CE;display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden}
+.bio.open{display:block}
+.more{align-self:flex-start;margin-top:4px;padding:6px 0;background:none;border:0;color:var(--o);font-size:13px;cursor:pointer}
+.contact{display:flex;gap:16px;margin-top:8px;font-size:13px;font-weight:600}
+.contact a{display:inline-block;padding:6px 0;color:#D5DDF0;transition:color .25s ease}
+.contact a:hover{color:var(--o)}
+.pboard{align-self:flex-start;margin-top:12px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:28px}
+.chip{padding:11px 18px;border-radius:999px;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.04);color:#D5DDF0;font-size:14px;font-weight:500;cursor:pointer;transition:border-color .25s ease,background .25s ease}
+.chip:hover{border-color:#fff}
+.chip.on{background:var(--o);border-color:var(--o);color:#020a1f;font-weight:600}
+
+/* Sponsors */
+.tier{flex-direction:row;flex-wrap:wrap;align-items:center;gap:24px;height:auto;margin-bottom:16px}
+.tier-h{flex:0 0 220px}
+.tier-n{display:block;font-size:12px;font-weight:600;letter-spacing:.16em}
+.tier-t{display:block;margin-top:6px;font-size:28px;font-weight:700;font-style:italic;letter-spacing:-.02em;line-height:1.05;color:#fff}
+.tier-b{flex:1 1 420px;display:flex;flex-wrap:wrap;align-items:center;gap:12px}
+.stile{display:inline-flex;align-items:center;justify-content:center;min-height:64px;padding:14px 24px;border-radius:12px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);color:#E8EDF7;font-weight:600;font-size:16px;transition:border-color .3s ease,background .3s ease}
+.stile.logo{background:#fff;border-color:#fff;padding:12px 22px}
+.stile.logo img{height:44px;max-width:170px;object-fit:contain;display:block}
+a.stile:hover{border-color:rgba(255,255,255,.7)}
+.soon{font-style:italic;font-weight:600;font-size:22px;color:var(--mut)}
+
+/* Alumni */
+.tools{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:16px;margin-bottom:28px}
+.sbox{flex:1 1 360px;max-width:520px}
+.sbox label{display:block;margin-bottom:8px;font-size:12px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--dim)}
+.search{width:100%;padding:15px 20px;border-radius:999px;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.05);color:#fff;font-family:inherit;font-size:16px;transition:border-color .3s ease,background .3s ease}
+.search:focus{outline:none;border-color:var(--o);background:rgba(255,255,255,.08)}
+.search::placeholder{color:var(--dim)}
+.count{font-size:14px;color:var(--mut)}
+.agrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:20px}
+.arow{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.year{font-size:12px;font-weight:600;letter-spacing:.12em;color:var(--lb)}
+.ctry{display:inline-flex;align-items:center;gap:8px;font-size:13px;color:var(--mut)}
+.ctry img{width:26px;height:18px;object-fit:cover;border-radius:3px;border:1px solid rgba(255,255,255,.3);display:block}
+.aname{margin-top:6px;font-size:24px;font-weight:600;line-height:1.15;letter-spacing:-.02em;color:#fff}
+.arole{font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--o)}
+.aco{font-size:15px;color:var(--mut)}
+.alink{align-self:flex-start;display:inline-block;padding:8px 0;font-size:14px;font-weight:600;color:#D5DDF0;transition:color .25s ease}
+.alink:hover{color:var(--o)}
+
+/* Bloque final y pie */
+.cta{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:28px;padding:48px;border-radius:28px;background:rgba(0,31,91,.4);border:1px solid rgba(114,169,190,.22);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
+.cta h2{margin:0;font-size:clamp(30px,4vw,48px);line-height:1.05;letter-spacing:-.035em;font-weight:700;color:#fff}
+.cta p{margin:14px 0 0;max-width:520px;font-size:17px;line-height:1.55;color:var(--mut)}
+.mv{font-size:22px;line-height:1.4;letter-spacing:-.01em;color:var(--ink)}
+.eyebrow-o{font-size:12px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--o)}
+footer{margin-top:72px}
+.foot{display:flex;flex-wrap:wrap;align-items:flex-start;justify-content:space-between;gap:12px 24px;padding-bottom:48px;font-size:13px;color:var(--dim)}
+.foot a{display:inline-block;padding:6px 0;color:var(--mut);transition:color .25s ease}
+.foot a:hover{color:#fff}
+.foot .col{display:flex;flex-direction:column;gap:6px}
+.foot .soc{display:flex;gap:24px}
+.foot .soc a{padding:12px 0}
+
+@media (max-width:900px){
+  .nav{border-radius:28px;padding:14px}
+  .links{order:3;width:100%;justify-content:center;gap:20px}
+}
+@media (prefers-reduced-motion:reduce){
+  *{animation:none!important;transition:none!important}
+  .reveal{opacity:1;transform:none}
+}
+</style>
+</head>
+<body>
+<div class="bg" aria-hidden="true"><div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div></div>
+<div id="glow" aria-hidden="true"></div>
+<svg class="grain" aria-hidden="true"><filter id="grain"><feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" stitchTiles="stitch"></feTurbulence></filter><rect width="100%" height="100%" filter="url(#grain)"></rect></svg>
+
+<div class="page">
+  <header class="nav-wrap">
+    <nav class="nav drop" aria-label="Main">
+      <div class="brand">
+        <a id="logo-shpe" class="logo-slot" href="#/home" data-route="home" aria-label="SHPE Purdue home" style="width:150px">SHPE logo</a>
+        <span class="sep" aria-hidden="true"></span>
+        <a id="logo-purdue" class="logo-slot" href="https://www.purdue.edu" target="_blank" rel="noopener" aria-label="Purdue University" style="width:110px">Purdue logo</a>
+      </div>
+      <div class="links">
+        <a href="#/about" data-route="about">About</a>
+        <a href="#/eboard" data-route="eboard">E-Board</a>
+        <a href="#/sponsors" data-route="sponsors">Sponsors</a>
+        <a href="#/alumni" data-route="alumni">Alumni</a>
+        <a href="#" data-cfg="events_url" target="_blank" rel="noopener">Events</a>
+      </div>
+      <div class="right">
+        <a class="ico" href="#" data-cfg="instagram_url" target="_blank" rel="noopener" aria-label="SHPE Purdue on Instagram">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+        </a>
+        <a class="ico" href="#" data-cfg="linkedin_url" target="_blank" rel="noopener" aria-label="SHPE Purdue on LinkedIn">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
+        </a>
+        <a class="btn1" href="#" data-cfg="portal_url" target="_blank" rel="noopener">Member Portal</a>
+      </div>
+    </nav>
+  </header>
+
+  <main id="view"></main>
+
+  <footer>
+    <div class="wrap foot">
+      <span class="col">
+        <span>Purdue University, West Lafayette, IN</span>
+        <span>Webmaster: <a href="#" data-cfg="webmaster_mail" target="_top" id="ft-mail"></a></span>
+      </span>
+      <span class="soc">
+        <a href="#" data-cfg="instagram_url" target="_blank" rel="noopener">Instagram</a>
+        <a href="#" data-cfg="linkedin_url" target="_blank" rel="noopener">LinkedIn</a>
+      </span>
+    </div>
+  </footer>
+</div>
+
+<script>
+// Pega aquí la URL del Web App de Apps Script (la que termina en /exec)
+var API_URL = 'https://script.google.com/macros/s/AKfycbz4uc8VosGb_dttSK8aXPs7Db1asKgA7fFCq8i5uMJSuenC8yBvuVN7_Q4CQ1snp7O-/exec';
+var INITIAL = '';
+try { INITIAL = new URLSearchParams(location.search).get('page') || ''; } catch (e) { /* sin parámetros */ }
+</script>
+<script>
+(function () {
+  'use strict';
+
+  var DEFAULTS = {
+    portal_url: 'https://polite-desert-068d32a10.7.azurestaticapps.net/',
+    instagram_url: 'https://www.instagram.com/shpepurdue/',
+    linkedin_url: 'https://www.linkedin.com/company/shpepurdue/posts/?feedView=all',
+    webmaster_email: 'shpe.purdue.webmaster@gmail.com',
+    sponsor_email: '',
+    mission: '',
+    vision: 'A place where Hispanics at Purdue are highly valued and influential.'
+  };
+  var ROUTES = ['home', 'about', 'eboard', 'sponsors', 'alumni'];
+  var DEFAULT_TIERS = { 1: 'Neil Armstrong', 2: 'Amelia Earhart', 3: 'Eugene Cernan', 4: 'Silver', 5: 'Bronze' };
+  var TIER_ACCENT = { 1: '#F26534', 2: '#F0705A', 3: '#72A9BE', 4: '#B9C5E0', 5: '#D9A066' };
+  var BOARD_KEYS = ['president', 'vicepresident', 'treasurer', 'secretary'];
+  var CANON = { president: 'President', vicepresident: 'Vice President', treasurer: 'Treasurer', secretary: 'Secretary' };
+
+  var COUNTRIES = {
+    'us': 'us', 'usa': 'us', 'united states': 'us', 'united states of america': 'us', 'estados unidos': 'us', 'eeuu': 'us',
+    'panama': 'pa', 'pty': 'pa', 'mexico': 'mx', 'colombia': 'co', 'venezuela': 've', 'peru': 'pe', 'ecuador': 'ec',
+    'bolivia': 'bo', 'chile': 'cl', 'argentina': 'ar', 'uruguay': 'uy', 'paraguay': 'py', 'brazil': 'br', 'brasil': 'br',
+    'costa rica': 'cr', 'nicaragua': 'ni', 'honduras': 'hn', 'el salvador': 'sv', 'guatemala': 'gt', 'cuba': 'cu',
+    'dominican republic': 'do', 'republica dominicana': 'do', 'puerto rico': 'pr', 'spain': 'es', 'espana': 'es',
+    'canada': 'ca', 'united kingdom': 'gb', 'uk': 'gb', 'germany': 'de', 'france': 'fr', 'italy': 'it', 'china': 'cn',
+    'india': 'in', 'japan': 'jp', 'netherlands': 'nl', 'switzerland': 'ch', 'ireland': 'ie', 'australia': 'au', 'singapore': 'sg'
+  };
+
+  var DATA = null;
+  var FAILED = false;
+  var S = { route: 'home', filter: 'all', q: '' };
+
+  // ---------- Utilidades ----------
+  function $(s, el) { return (el || document).querySelector(s); }
+  function $$(s, el) { return Array.prototype.slice.call((el || document).querySelectorAll(s)); }
+  function esc(s) {
+    return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
+  }
+  function norm(s) { return String(s || '').normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().replace(/\s+/g, ' ').trim(); }
+  function key(s) { return norm(s).replace(/[^a-z]/g, ''); }
+  function canon(s) { return CANON[key(s)] || s; }
+  function isEmail(s) { return /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(String(s || '').trim()); }
+  function webUrl(u) {
+    u = String(u || '').trim();
+    if (!u) return '';
+    if (/^https?:\/\//i.test(u)) return u;
+    if (/^[\w-]+(\.[\w-]+)+/.test(u)) return 'https://' + u;
+    return '';
+  }
+  function initials(name) {
+    return String(name || '').split(/\s+/).filter(Boolean).slice(0, 2).map(function (w) { return w[0].toUpperCase(); }).join('');
+  }
+  function cfg() {
+    var c = {}, k;
+    for (k in DEFAULTS) c[k] = DEFAULTS[k];
+    if (DATA && DATA.config) for (k in DATA.config) if (DATA.config[k]) c[k] = DATA.config[k];
+    return c;
+  }
+  function eventsUrl() { return cfg().portal_url.replace(/\/+$/, '') + '/events'; }
+
+  // ---------- Configuración en enlaces ----------
+  function applyConfig() {
+    var c = cfg();
+    $$('[data-cfg]').forEach(function (a) {
+      var k = a.getAttribute('data-cfg'), v = '';
+      if (k === 'events_url') v = eventsUrl();
+      else if (k === 'webmaster_mail') {
+        v = 'mailto:' + c.webmaster_email;
+        a.textContent = c.webmaster_email;
+      } else if (k === 'sponsor_mail') {
+        v = 'mailto:' + (c.sponsor_email || c.webmaster_email) + '?subject=' + encodeURIComponent('SHPE Purdue sponsorship');
+      } else v = c[k] || '';
+      if (v) a.setAttribute('href', v);
+    });
+    var L = (DATA && DATA.logos) || {};
+    setLogo('#logo-shpe', L.shpe, 'SHPE', 150);
+    setLogo('#logo-purdue', L.purdue, 'Purdue', 110);
+  }
+  function setLogo(sel, url, alt, w) {
+    var el = $(sel);
+    if (!el || !url || el.getAttribute('data-done')) return;
+    el.className = 'logo-img';
+    el.style.width = '';
+    el.innerHTML = '<img src="' + esc(url) + '" alt="' + esc(alt) + '">';
+    el.setAttribute('data-done', '1');
+  }
+
+  // ---------- Fragmentos reutilizables ----------
+  function hero(eyebrow, h1, lead, d, home) {
+    d = d || [0.3, 0.5, 0.8];
+    return '<section class="wrap hero' + (home ? ' home' : '') + '">' +
+      '<p class="eyebrow rise" style="animation-delay:' + d[0] + 's">' + eyebrow + '</p>' +
+      '<h1 class="h1 rise" style="animation-delay:' + d[1] + 's">' + h1 + '</h1>' +
+      (lead ? '<p class="lead rise" style="animation-delay:' + d[2] + 's">' + lead + '</p>' : '') +
+      '</section>';
+  }
+  function reveal(html, i) { return '<div class="reveal" style="--d:' + ((i || 0) * 0.08).toFixed(2) + 's">' + html + '</div>'; }
+  function loading() { return '<p class="status">' + (FAILED ? 'We could not load this section right now. Please try again later.' : 'Loading…') + '</p>'; }
+
+  function flagHtml(pais) {
+    var k = norm(pais), code = COUNTRIES[k] || (/^[a-z]{2}$/.test(k) ? k : '');
+    if (!code) return esc(pais);
+    return '<img src="https://flagcdn.com/w40/' + code + '.png" srcset="https://flagcdn.com/w80/' + code + '.png 2x" alt="" data-hide-on-error="1">' + esc(pais);
+  }
+
+  // ---------- Vistas ----------
+  var VIEWS = {
+    home: function () {
+      return '<section class="wrap hero home">' +
+        '<p class="eyebrow rise" style="animation-delay:.4s">Society of Hispanic Professional Engineers</p>' +
+        '<h1 class="h1 big"><span class="block rise" style="animation-delay:.7s">Leading Hispanics</span><span class="block rise" style="animation-delay:1.1s">in STEM<span class="o"> at Purdue.</span></span></h1>' +
+        '<p class="lead rise" style="animation-delay:1.6s">A home for Hispanic students in the Purdue community: professional development, mentorship and a network that opens doors.</p>' +
+        '<div class="actions rise" style="animation-delay:1.9s"><a class="btn1 lg" href="#" data-cfg="portal_url" target="_blank" rel="noopener">Member Portal</a><a class="btn2" href="#/sponsors" data-route="sponsors">Partner with us</a></div>' +
+        '</section>' +
+        '<section class="wrap" style="margin-top:72px" id="marq-sec" hidden><p class="label rise" style="animation-delay:2.2s">Our sponsors</p><div class="marq rise" style="animation-delay:2.3s" id="marq"></div></section>' +
+        '<section class="wrap sec" style="margin-top:56px"><div class="grid3">' +
+        reveal('<a class="card" href="#/eboard" data-route="eboard"><span class="num">01</span><span class="ctitle">Meet the E-Board</span><span class="ctext">The executive team and directors leading the chapter this year.</span><span class="more-link">Explore</span></a>', 0) +
+        reveal('<a class="card" href="#/sponsors" data-route="sponsors"><span class="num">02</span><span class="ctitle">Our sponsors</span><span class="ctext">The companies that help our members reach their next opportunity.</span><span class="more-link">Explore</span></a>', 1) +
+        reveal('<a class="card" href="#/alumni" data-route="alumni"><span class="num">03</span><span class="ctitle">Alumni network</span><span class="ctext">Past officers and where their careers have taken them.</span><span class="more-link">Explore</span></a>', 2) +
+        '</div></section>';
+    },
+
+    about: function () {
+      var p = function (n, t, x) { return '<div class="card hov"><span class="num">' + n + '</span><span class="ctitle">' + t + '</span><span class="ctext">' + x + '</span></div>'; };
+      return hero('About SHPE Purdue', 'The home for Hispanics<span class="o"> in the Purdue community.</span>',
+          'SHPE Purdue is the chapter of the Society of Hispanic Professional Engineers at Purdue University: a community where members grow academically, professionally and socially.') +
+        '<section class="wrap sec"><div class="grid3">' +
+        reveal(p('01', 'Professional development', 'Workshops, interview exercises and information sessions that connect members with opportunities.'), 0) +
+        reveal(p('02', 'Mentorship', 'Guidance from officers and alumni for members at every stage of their time at Purdue.'), 1) +
+        reveal(p('03', 'Community', 'A familia of students who support each other academically, professionally and socially.'), 2) +
+        '</div></section>' +
+        '<section class="wrap" style="margin-top:20px"><div class="grid3" id="mv"></div></section>' +
+        '<section class="wrap sec">' + reveal(
+          '<div class="cta"><div style="flex:1 1 420px"><h2>Be part of the familia.</h2><p>Members sign in to the portal to see events, check in and track their points.</p></div>' +
+          '<div class="actions" style="margin:0"><a class="btn1 lg" href="#" data-cfg="portal_url" target="_blank" rel="noopener">Member Portal</a><a class="btn2" href="#/sponsors" data-route="sponsors">Partner with us</a></div></div>') + '</section>';
+    },
+
+    eboard: function () {
+      return hero('Meet the team', 'Our <span class="o">E-Board.</span>', 'The executive team and the Board of Directors leading SHPE Purdue.') +
+        '<section class="wrap sec"><h2 class="h2 reveal">Executive Team</h2><div id="exec" class="pgrid">' + loading() + '</div></section>' +
+        '<section class="wrap sec" id="dir" style="margin-top:72px"><h2 class="h2 reveal">Board of Directors</h2><div id="chips" class="chips"></div><div id="dirgrid" class="pgrid"></div></section>';
+    },
+
+    sponsors: function () {
+      return hero('Our sponsors', 'Companies that invest<span class="o"> in our members.</span>',
+          'Collaborative events such as workshops, interview exercises and information sessions connect our members with the opportunities that follow.') +
+        '<section class="wrap sec"><div id="tiers">' + loading() + '</div></section>' +
+        '<section class="wrap sec">' + reveal(
+          '<div class="cta"><div style="flex:1 1 420px"><h2>Partner with SHPE Purdue.</h2><p>Build a positive corporate presence with our talented and diverse members.</p></div>' +
+          '<a class="btn1 lg" href="#" data-cfg="sponsor_mail" target="_top">Get in touch</a></div>') + '</section>';
+    },
+
+    alumni: function () {
+      return hero('Alumni network', 'Honoring the past,<span class="o"> shaping the future.</span>', 'The officers who built SHPE Purdue, and where their careers have taken them.') +
+        '<section class="wrap sec" style="margin-top:48px"><div class="tools"><div class="sbox"><label for="q">Search alumni</label>' +
+        '<input id="q" class="search" type="text" autocomplete="off" placeholder="Name, company, country or role" value="' + esc(S.q) + '"></div><span class="count" id="count"></span></div>' +
+        '<div id="agrid" class="agrid">' + loading() + '</div></section>';
+    }
+  };
+
+  // ---------- Relleno con datos ----------
+  function personHtml(p, boardKey) {
+    var photo = p.foto
+      ? '<img src="' + esc(p.foto) + '" alt="' + esc(p.nombre) + '" loading="lazy" data-fallback="' + esc(initials(p.nombre)) + '">'
+      : '<span class="ini">' + esc(initials(p.nombre)) + '</span>';
+    var bio = '';
+    if (p.bio) {
+      bio = '<p class="bio">' + esc(p.bio) + '</p>' + (p.bio.length > 160 ? '<button class="more" type="button" data-more="1">Read more</button>' : '');
+    }
+    var links = '';
+    if (isEmail(p.correo)) links += '<a href="mailto:' + esc(p.correo) + '" target="_top">Email</a>';
+    if (webUrl(p.linkedin)) links += '<a href="' + esc(webUrl(p.linkedin)) + '" target="_blank" rel="noopener">LinkedIn</a>';
+    var btn = boardKey ? '<button class="btn2 sm pboard" type="button" data-open-board="' + boardKey + '">' + esc(canon(p.cargo)) + '\'s Board</button>' : '';
+    var sub = (!boardKey && p.board && !isExec(p)) ? '<span class="role" style="margin-top:6px;color:#7F8CAA;text-transform:none;letter-spacing:0;font-weight:500;font-size:13px">' + esc(canon(p.board)) + '\'s Board</span>' : '';
+    return '<div class="person"><div class="photo">' + photo + '</div><span class="role">' + esc(canon(p.cargo)) + '</span><span class="pname">' + esc(p.nombre) + '</span>' + sub + bio + (links ? '<div class="contact">' + links + '</div>' : '') + btn + '</div>';
+  }
+  function isExec(p) { return norm(p.grupo) === 'executive'; }
+
+  function boardKeysOf(dirs) {
+    var seen = {}, out = [];
+    BOARD_KEYS.forEach(function (k) { if (dirs.some(function (d) { return key(d.board) === k; })) { seen[k] = 1; out.push(k); } });
+    dirs.forEach(function (d) { var k = key(d.board); if (k && !seen[k]) { seen[k] = 1; out.push(k); } });
+    return out;
+  }
+  function boardLabel(k, dirs) {
+    var d = dirs.filter(function (x) { return key(x.board) === k; })[0];
+    return canon(d ? d.board : k) + '\'s Board';
+  }
+
+  function fillEboard() {
+    var exec = $('#exec');
+    if (!exec) return;
+    if (!DATA) { if (FAILED) exec.innerHTML = loading(); return; }
+    var all = DATA.eboard || [];
+    var execs = all.filter(isExec), dirs = all.filter(function (p) { return !isExec(p); });
+    var boards = boardKeysOf(dirs);
+    exec.innerHTML = execs.length ? execs.map(function (p, i) {
+      return reveal(personHtml(p, boards.indexOf(key(p.cargo)) >= 0 ? key(p.cargo) : ''), i);
+    }).join('') : '<p class="status">No officers yet.</p>';
+    fillDirectors();
+    afterFill();
+  }
+
+  function fillDirectors() {
+    var chips = $('#chips'), grid = $('#dirgrid');
+    if (!chips || !grid || !DATA) return;
+    var dirs = (DATA.eboard || []).filter(function (p) { return !isExec(p); });
+    var boards = boardKeysOf(dirs);
+    if (S.filter !== 'all' && boards.indexOf(S.filter) < 0) S.filter = 'all';
+    chips.innerHTML = boards.length ? ['all'].concat(boards).map(function (k) {
+      return '<button type="button" class="chip' + (S.filter === k ? ' on' : '') + '" data-filter="' + k + '">' + (k === 'all' ? 'All' : esc(boardLabel(k, dirs))) + '</button>';
+    }).join('') : '';
+    var list = dirs.filter(function (d) { return S.filter === 'all' || key(d.board) === S.filter; });
+    grid.innerHTML = list.length ? list.map(function (p, i) { return reveal(personHtml(p, ''), i % 6); }).join('') : '<p class="status">No directors yet.</p>';
+    afterFill();
+  }
+
+  function fillSponsors() {
+    var el = $('#tiers');
+    if (!el || !DATA) return;
+    var names = {}, k;
+    for (k in DEFAULT_TIERS) names[k] = DEFAULT_TIERS[k];
+    (DATA.niveles || []).forEach(function (n) { names[n.nivel] = n.nombre; });
+    var groups = {};
+    (DATA.sponsors || []).forEach(function (s) { var n = s.nivel || 99; (groups[n] = groups[n] || []).push(s); });
+    var levels = Object.keys(groups).map(Number).sort(function (a, b) { return a - b; });
+    if (!levels.length) { el.innerHTML = '<p class="status">No sponsors yet.</p>'; return; }
+    el.innerHTML = levels.map(function (n, i) {
+      var soon = false;
+      var tiles = groups[n].filter(function (s) { if (/^coming soon/i.test(s.nombre)) { soon = true; return false; } return true; }).map(function (s) {
+        var inner = s.logo ? '<img src="' + esc(s.logo) + '" alt="' + esc(s.nombre) + '" loading="lazy" data-fallback-text="' + esc(s.nombre) + '">' : esc(s.nombre);
+        var cls = 'stile' + (s.logo ? ' logo' : '');
+        var url = webUrl(s.sitio);
+        return url ? '<a class="' + cls + '" href="' + esc(url) + '" target="_blank" rel="noopener">' + inner + '</a>' : '<span class="' + cls + '">' + inner + '</span>';
+      }).join('');
+      var accent = TIER_ACCENT[n] || '#72A9BE';
+      return reveal('<div class="card tier"><div class="tier-h"><span class="tier-n" style="color:' + accent + '">TIER ' + (n === 99 ? '' : n) + '</span><span class="tier-t">' + esc(names[n] || 'Partners') + '</span></div>' +
+        '<div class="tier-b">' + tiles + (soon ? '<span class="soon">Coming soon…</span>' : '') + '</div></div>', i % 3);
+    }).join('');
+    afterFill();
+  }
+
+  function fillMarquee() {
+    var sec = $('#marq-sec'), box = $('#marq');
+    if (!sec || !box || !DATA) return;
+    var items = (DATA.sponsors || []).filter(function (s) { return !/^coming soon/i.test(s.nombre); })
+      .sort(function (a, b) { return (a.nivel || 99) - (b.nivel || 99); });
+    if (!items.length) return;
+    var base = items.slice();
+    while (base.length < 12) base = base.concat(items);
+    var html = base.map(function (s) {
+      return s.logo ? '<span class="pill logo"><img src="' + esc(s.logo) + '" alt="' + esc(s.nombre) + '" data-fallback-text="' + esc(s.nombre) + '"></span>' : '<span class="pill">' + esc(s.nombre) + '</span>';
+    }).join('');
+    box.innerHTML = '<div class="track">' + html + html + '</div>';
+    sec.hidden = false;
+  }
+
+  function fillAbout() {
+    var el = $('#mv');
+    if (!el) return;
+    var c = cfg();
+    var blocks = [];
+    if (c.mission) blocks.push(['Mission', c.mission]);
+    if (c.vision) blocks.push(['Vision', c.vision]);
+    el.innerHTML = blocks.map(function (b, i) {
+      return reveal('<div class="card hov" style="padding:36px;gap:12px"><span class="eyebrow-o">' + b[0] + '</span><span class="mv">' + esc(b[1]) + '</span></div>', i);
+    }).join('');
+    afterFill();
+  }
+
+  function endYear(y) { var m = String(y || '').match(/(\d{4})\D*$/); return m ? parseInt(m[1], 10) : 0; }
+
+  function fillAlumni() {
+    var grid = $('#agrid');
+    if (!grid || !DATA) return;
+    var q = norm(S.q);
+    var list = (DATA.alumni || []).slice().sort(function (a, b) { return endYear(b.year) - endYear(a.year); })
+      .filter(function (a) { return !q || norm([a.nombre, a.empresa, a.pais, a.cargo, a.year].join(' ')).indexOf(q) >= 0; });
+    var count = $('#count');
+    if (count) count.textContent = list.length + (list.length === 1 ? ' alumnus' : ' alumni');
+    grid.innerHTML = list.length ? list.map(function (a, i) {
+      var li = webUrl(a.linkedin);
+      return reveal('<div class="card hov"><div class="arow"><span class="year">' + esc(a.year) + '</span>' + (a.pais ? '<span class="ctry">' + flagHtml(a.pais) + '</span>' : '') + '</div>' +
+        '<span class="aname">' + esc(a.nombre) + '</span>' +
+        '<span class="arole">' + esc(canon(a.cargo)) + (a.grupo ? ' · ' + esc(a.grupo) : '') + '</span>' +
+        (a.empresa ? '<span class="aco">' + esc(a.empresa) + '</span>' : '') +
+        (li ? '<a class="alink" href="' + esc(li) + '" target="_blank" rel="noopener">LinkedIn</a>' : '') + '</div>', i % 6);
+    }).join('') : '<p class="status">' + (q ? 'No alumni match that search.' : 'No alumni yet.') + '</p>';
+    afterFill();
+  }
+
+  function hydrate() {
+    applyConfig();
+    if (!DATA) {
+      if (FAILED) { fillEboard(); var t = $('#tiers'); if (t) t.innerHTML = loading(); var a = $('#agrid'); if (a) a.innerHTML = loading(); }
+      return;
+    }
+    fillMarquee(); fillAbout(); fillEboard(); fillSponsors(); fillAlumni();
+  }
+
+  // ---------- Reveal, tarjetas y glow ----------
+  var io = ('IntersectionObserver' in window) ? new IntersectionObserver(function (entries) {
+    entries.forEach(function (en) { if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); } });
+  }, { threshold: 0.12, rootMargin: '0px 0px -6% 0px' }) : null;
+  var cards = [];
+
+  function afterFill() {
+    $$('.reveal:not(.in)').forEach(function (el) { if (io) io.observe(el); else el.classList.add('in'); });
+    $$('img[data-fallback]:not([data-w])').forEach(function (img) {
+      img.setAttribute('data-w', '1');
+      img.addEventListener('error', function () {
+        var s = document.createElement('span'); s.className = 'ini'; s.textContent = img.getAttribute('data-fallback'); img.replaceWith(s);
+      });
+    });
+    $$('img[data-fallback-text]:not([data-w])').forEach(function (img) {
+      img.setAttribute('data-w', '1');
+      img.addEventListener('error', function () {
+        var p = img.parentNode, t = img.getAttribute('data-fallback-text');
+        if (p) { p.classList.remove('logo'); p.textContent = t; }
+      });
+    });
+    $$('img[data-hide-on-error]:not([data-w])').forEach(function (img) {
+      img.setAttribute('data-w', '1');
+      img.addEventListener('error', function () { img.style.display = 'none'; });
+    });
+    cards = $$('.card');
+    applyConfig();
+  }
+
+  var glow = $('#glow'), tx = 0, ty = 0, cx = 0, cy = 0, moved = false, raf = 0;
+  var fine = window.matchMedia && window.matchMedia('(pointer:fine)').matches;
+  var calm = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function proximity() {
+    for (var i = 0; i < cards.length; i++) {
+      var r = cards[i].getBoundingClientRect();
+      if (r.bottom < -300 || r.top > innerHeight + 300) continue;
+      var dx = Math.max(r.left - tx, 0, tx - r.right), dy = Math.max(r.top - ty, 0, ty - r.bottom);
+      var p = Math.max(0, 1 - Math.sqrt(dx * dx + dy * dy) / 240);
+      cards[i].style.setProperty('--p', p.toFixed(3));
+      cards[i].style.setProperty('--mx', (tx - r.left) + 'px');
+      cards[i].style.setProperty('--my', (ty - r.top) + 'px');
+    }
+  }
+  function tick() {
+    raf = 0;
+    cx += (tx - cx) * 0.14; cy += (ty - cy) * 0.14;
+    glow.style.transform = 'translate3d(' + cx.toFixed(1) + 'px,' + cy.toFixed(1) + 'px,0)';
+    proximity();
+    if (Math.abs(tx - cx) > 0.5 || Math.abs(ty - cy) > 0.5) raf = requestAnimationFrame(tick);
+  }
+  if (fine && !calm) {
+    addEventListener('pointermove', function (e) {
+      if (e.pointerType === 'touch') return;
+      tx = e.clientX; ty = e.clientY;
+      if (!moved) { moved = true; cx = tx; cy = ty; glow.style.opacity = 1; }
+      if (!raf) raf = requestAnimationFrame(tick);
+    }, { passive: true });
+    addEventListener('scroll', function () { if (moved && !raf) raf = requestAnimationFrame(tick); }, { passive: true });
+  }
+
+  // ---------- Navegación ----------
+  function setActive() {
+    $$('.links a[data-route]').forEach(function (a) { a.classList.toggle('on', a.getAttribute('data-route') === S.route); });
+  }
+  function draw(animate) {
+    var v = $('#view');
+    var run = function () {
+      v.innerHTML = VIEWS[S.route]();
+      v.classList.remove('out');
+      window.scrollTo(0, 0);
+      setActive();
+      afterFill();
+      hydrate();
+    };
+    if (animate) { v.classList.add('out'); setTimeout(run, 220); } else run();
+  }
+  function go(route, animate) {
+    if (ROUTES.indexOf(route) < 0) route = 'home';
+    if (route === S.route && animate) { window.scrollTo(0, 0); return; }
+    S.route = route;
+    try { if (location.hash !== '#/' + route) location.hash = '/' + route; } catch (e) { /* iframe sin acceso */ }
+    draw(animate);
+  }
+  function fromHash() {
+    var m = String(location.hash || '').match(/^#\/(\w+)/);
+    return m ? m[1] : '';
+  }
+
+  document.addEventListener('click', function (e) {
+    var t = e.target;
+    var r = t.closest && t.closest('[data-route]');
+    if (r) { e.preventDefault(); go(r.getAttribute('data-route'), true); return; }
+    var f = t.closest && t.closest('[data-filter]');
+    if (f) { S.filter = f.getAttribute('data-filter'); fillDirectors(); return; }
+    var ob = t.closest && t.closest('[data-open-board]');
+    if (ob) {
+      S.filter = ob.getAttribute('data-open-board'); fillDirectors();
+      var d = $('#dir'); if (d) d.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      return;
+    }
+    var m = t.closest && t.closest('[data-more]');
+    if (m) { var b = m.previousElementSibling; if (b) { var open = b.classList.toggle('open'); m.textContent = open ? 'Show less' : 'Read more'; } }
+  });
+  document.addEventListener('input', function (e) {
+    if (e.target && e.target.id === 'q') { S.q = e.target.value; fillAlumni(); }
+  });
+  window.addEventListener('hashchange', function () {
+    var h = fromHash();
+    if (h && h !== S.route && ROUTES.indexOf(h) >= 0) { S.route = h; draw(true); }
+  });
+
+  // ---------- Arranque ----------
+  S.route = ROUTES.indexOf(INITIAL) >= 0 ? INITIAL : (ROUTES.indexOf(fromHash()) >= 0 ? fromHash() : 'home');
+  draw(false);
+
+  // Carga de datos: muestra al instante la última copia guardada y la actualiza en segundo plano
+  var CACHE_KEY = 'shpe_site_data_v1';
+  var cachedStr = '';
+  try {
+    cachedStr = localStorage.getItem(CACHE_KEY) || '';
+    if (cachedStr) { DATA = JSON.parse(cachedStr); hydrate(); }
+  } catch (e) { cachedStr = ''; DATA = null; }
+
+  if (!API_URL || API_URL.indexOf('PASTE_') === 0) {
+    if (!DATA) { FAILED = true; hydrate(); }
+  } else {
+    fetch(API_URL)
+      .then(function (r) { if (!r.ok) throw new Error('http'); return r.json(); })
+      .then(function (d) {
+        if (!d || d.error) throw new Error('api');
+        var fresh = JSON.stringify(d);
+        try { localStorage.setItem(CACHE_KEY, fresh); } catch (e) { /* sin almacenamiento */ }
+        if (fresh !== cachedStr) { DATA = d; hydrate(); }
+      })
+      .catch(function () { if (!DATA) { FAILED = true; hydrate(); } });
+  }
+})();
+</script>
+</body>
+</html>
