@@ -115,6 +115,7 @@ a.card:hover,.card.hov:hover{transform:translate3d(0,-6px,0);background:rgba(0,3
 .ini{font-size:44px;font-weight:700;color:rgba(114,169,190,.6)}
 .role{margin-top:14px;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--o)}
 .pname{margin-top:4px;font-size:22px;font-weight:600;line-height:1.15;letter-spacing:-.02em;color:#fff}
+.pmajor{margin-top:6px;font-size:13px;line-height:1.4;color:var(--lb)}
 .bio{margin:10px 0 0;font-size:14px;line-height:1.55;color:#9FB0CE;display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden}
 .bio.open{display:block}
 .more{align-self:flex-start;margin-top:4px;padding:6px 0;background:none;border:0;color:var(--o);font-size:13px;cursor:pointer}
@@ -155,6 +156,7 @@ a.stile:hover{border-color:rgba(255,255,255,.7)}
 .aname{margin-top:6px;font-size:24px;font-weight:600;line-height:1.15;letter-spacing:-.02em;color:#fff}
 .arole{font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--o)}
 .aco{font-size:15px;color:var(--mut)}
+.amaj{font-size:13px;line-height:1.4;color:var(--lb)}
 .alink{align-self:flex-start;display:inline-block;padding:8px 0;font-size:14px;font-weight:600;color:#D5DDF0;transition:color .25s ease}
 .alink:hover{color:var(--o)}
 
@@ -395,7 +397,7 @@ try { INITIAL = new URLSearchParams(location.search).get('page') || ''; } catch 
     alumni: function () {
       return hero('Alumni network', 'Honoring the past,<span class="o"> shaping the future.</span>', 'The officers who built SHPE Purdue, and where their careers have taken them.') +
         '<section class="wrap sec" style="margin-top:48px"><div class="tools"><div class="sbox"><label for="q">Search alumni</label>' +
-        '<input id="q" class="search" type="text" autocomplete="off" placeholder="Name, company, country or role" value="' + esc(S.q) + '"></div><span class="count" id="count"></span></div>' +
+        '<input id="q" class="search" type="text" autocomplete="off" placeholder="Name, major, company, country or role" value="' + esc(S.q) + '"></div><span class="count" id="count"></span></div>' +
         '<div id="agrid" class="agrid">' + loading() + '</div></section>';
     }
   };
@@ -414,7 +416,7 @@ try { INITIAL = new URLSearchParams(location.search).get('page') || ''; } catch 
     if (webUrl(p.linkedin)) links += '<a href="' + esc(webUrl(p.linkedin)) + '" target="_blank" rel="noopener">LinkedIn</a>';
     var btn = boardKey ? '<button class="btn2 sm pboard" type="button" data-open-board="' + boardKey + '">' + esc(canon(p.cargo)) + '\'s Board</button>' : '';
     var sub = (!boardKey && p.board && !isExec(p)) ? '<span class="role" style="margin-top:6px;color:#7F8CAA;text-transform:none;letter-spacing:0;font-weight:500;font-size:13px">' + esc(canon(p.board)) + '\'s Board</span>' : '';
-    return '<div class="person"><div class="photo">' + photo + '</div><span class="role">' + esc(canon(p.cargo)) + '</span><span class="pname">' + esc(p.nombre) + '</span>' + sub + bio + (links ? '<div class="contact">' + links + '</div>' : '') + btn + '</div>';
+    return '<div class="person"><div class="photo">' + photo + '</div><span class="role">' + esc(canon(p.cargo)) + '</span><span class="pname">' + esc(p.nombre) + '</span>' + (p.major ? '<span class="pmajor">' + esc(p.major) + '</span>' : '') + sub + bio + (links ? '<div class="contact">' + links + '</div>' : '') + btn + '</div>';
   }
   function isExec(p) { return norm(p.grupo) === 'executive'; }
 
@@ -517,7 +519,7 @@ try { INITIAL = new URLSearchParams(location.search).get('page') || ''; } catch 
     if (!grid || !DATA) return;
     var q = norm(S.q);
     var list = (DATA.alumni || []).slice().sort(function (a, b) { return endYear(b.year) - endYear(a.year); })
-      .filter(function (a) { return !q || norm([a.nombre, a.empresa, a.pais, a.cargo, a.year].join(' ')).indexOf(q) >= 0; });
+      .filter(function (a) { return !q || norm([a.nombre, a.empresa, a.pais, a.cargo, a.year, a.major].join(' ')).indexOf(q) >= 0; });
     var count = $('#count');
     if (count) count.textContent = list.length + (list.length === 1 ? ' alumnus' : ' alumni');
     grid.innerHTML = list.length ? list.map(function (a, i) {
@@ -525,6 +527,7 @@ try { INITIAL = new URLSearchParams(location.search).get('page') || ''; } catch 
       return reveal('<div class="card hov"><div class="arow"><span class="year">' + esc(a.year) + '</span>' + (a.pais ? '<span class="ctry">' + flagHtml(a.pais) + '</span>' : '') + '</div>' +
         '<span class="aname">' + esc(a.nombre) + '</span>' +
         '<span class="arole">' + esc(canon(a.cargo)) + (a.grupo ? ' · ' + esc(a.grupo) : '') + '</span>' +
+        (a.major ? '<span class="amaj">' + esc(a.major) + '</span>' : '') +
         (a.empresa ? '<span class="aco">' + esc(a.empresa) + '</span>' : '') +
         (li ? '<a class="alink" href="' + esc(li) + '" target="_blank" rel="noopener">LinkedIn</a>' : '') + '</div>', i % 6);
     }).join('') : '<p class="status">' + (q ? 'No alumni match that search.' : 'No alumni yet.') + '</p>';
