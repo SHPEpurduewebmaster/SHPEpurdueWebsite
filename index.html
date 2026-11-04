@@ -843,6 +843,8 @@ try { INITIAL = new URLSearchParams(location.search).get('page') || ''; } catch 
   var SQ_IN = [290.3, 31.8];
   var SQ_START = 1986;
   var SQ_WIN = [[0, 0.75], [0.75, 1]];
+  var SQ_TH = [0.04, 0.17, 0.30, 0.43, 0.56];   // disparos de scroll: título y los 4 valores
+  var SQ_DUR = [1700, 1300, 1300, 1300, 1300];  // ms de cada paso
   var SQD = { pres: {}, stats: [] };
   var SQ = null, HS = null;
 
@@ -910,7 +912,7 @@ try { INITIAL = new URLSearchParams(location.search).get('page') || ''; } catch 
   }
   function sqMapTick(t) {
     if (!SQ || SQ.mapT0 === null) return;
-    var T = clamp((t - SQ.mapT0) / 4600, 0, 1);
+    var T = clamp((t - SQ.mapT0) / 3200, 0, 1);
     sqMap(T);
     if (T < 1) SQ.mapRaf = requestAnimationFrame(sqMapTick);
   }
@@ -947,32 +949,35 @@ try { INITIAL = new URLSearchParams(location.search).get('page') || ''; } catch 
       SQ.beats[k].style.transform = 'translate3d(0,' + y.toFixed(1) + 'px,0)';
       SQ.beats[k].style.visibility = op <= 0.001 ? 'hidden' : 'visible';
     }
-    // Core Values: el scroll solo la dispara; corre sola (sqValTick)
+    // Core Values: cada paso tiene su propio disparo de scroll y corre solo (sqValTick)
+    var i, U = SQ.u;
     if (!stat) {
-      if (SQ.vT0 === null && p >= 0.02) { SQ.vT0 = performance.now(); SQ.vRaf = requestAnimationFrame(sqValTick); }
-      else if (SQ.vT0 !== null && p < 0.005) { SQ.vT0 = null; if (SQ.vRaf) cancelAnimationFrame(SQ.vRaf); SQ.a = 0; }
+      for (i = 0; i < SQ_TH.length; i++) {
+        if (SQ.st[i] === null && p >= SQ_TH[i]) { SQ.st[i] = performance.now(); if (!SQ.vRaf) SQ.vRaf = requestAnimationFrame(sqValTick); }
+        else if (SQ.st[i] !== null && p < SQ_TH[i] - 0.015) { SQ.st[i] = null; U[i] = 0; }
+      }
     }
-    var a = stat ? 1 : SQ.a, i;
+    var u0 = stat ? 1 : U[0];
     // 1 · Welcome: el logo se dibuja como plano
-    var draw = stat ? 1 : Math.max(SQ.iv, clamp(a / 0.1, 0, 1));
+    var draw = stat ? 1 : SQ.iv;
     SQ.sb.forEach(function (n, j) { n.style.strokeDashoffset = (1 - ease(clamp((draw - j * 0.14) / 0.58, 0, 1))).toFixed(3); });
-    SQ.h1.style.opacity = stat ? 0 : (1 - clamp((a - 0.1) / 0.05, 0, 1)).toFixed(2);
+    SQ.h1.style.opacity = stat ? 0 : (1 - clamp(u0 / 0.3, 0, 1)).toFixed(2);
     SQ.hint.style.opacity = stat ? 0 : (1 - clamp(p / 0.03, 0, 1)).toFixed(2);
     var so = stat ? 0 : 1 - clamp((p - 0.9) / 0.06, 0, 1);
     SQ.skip.style.opacity = so.toFixed(2);
     SQ.skip.style.pointerEvents = so < 0.5 ? 'none' : '';
     SQ.bp.style.opacity = stat ? 1 : (1 - 0.7 * clamp((p - 0.06) / 0.1, 0, 1)).toFixed(2);
-    // 2 · El logo se mueve y se escriben los Core Values, uno por uno con su pieza
-    var t = stat ? 1 : ease(clamp((a - 0.09) / 0.12, 0, 1));
+    // 2 · Paso 1: el logo se mueve y se escribe el título; pasos 2-5: cada valor con su pieza
+    var t = stat ? 1 : ease(clamp(u0 / 0.5, 0, 1));
     var tx = SQ.col ? 0 : SQ.off * (1 - t), ty = (SQ.col ? SQ.off * (1 - t) : 0) - 46 * (1 - t);
     SQ.sym.style.transform = 'translate3d(' + tx.toFixed(1) + 'px,' + ty.toFixed(1) + 'px,0) scale(' + (SQ.k + (1 - SQ.k) * t).toFixed(3) + ')';
-    sqText(SQ.vt, stat ? 1 : clamp((a - 0.22) / 0.09, 0, 1));
+    sqText(SQ.vt, stat ? 1 : clamp((u0 - 0.4) / 0.6, 0, 1));
     for (i = 0; i < 4; i++) {
-      var s = 0.33 + 0.15 * i, pc = stat ? 1 : ease(clamp((a - s) / 0.05, 0, 1));
-      SQ.sc[i].style.strokeDashoffset = (1 - pc).toFixed(3);
-      SQ.sc[i].style.fillOpacity = stat ? 1 : clamp((a - s - 0.03) / 0.05, 0, 1).toFixed(2);
-      sqText(SQ.vx[i], stat ? 1 : clamp((a - s - 0.015) / 0.06, 0, 1));
-      var mo = stat ? 1 : clamp((a - s - 0.07) / 0.04, 0, 1);
+      var u = stat ? 1 : U[i + 1];
+      SQ.sc[i].style.strokeDashoffset = (1 - ease(clamp(u / 0.45, 0, 1))).toFixed(3);
+      SQ.sc[i].style.fillOpacity = clamp((u - 0.3) / 0.3, 0, 1).toFixed(2);
+      sqText(SQ.vx[i], clamp((u - 0.08) / 0.55, 0, 1));
+      var mo = clamp((u - 0.55) / 0.35, 0, 1);
       SQ.vm[i].style.opacity = mo.toFixed(2);
       SQ.vm[i].style.transform = 'translate3d(' + ((1 - mo) * 10).toFixed(1) + 'px,0,0)';
     }
@@ -981,15 +986,21 @@ try { INITIAL = new URLSearchParams(location.search).get('page') || ''; } catch 
     else if (SQ.mapT0 === null && p >= SQ_WIN[1][0] + 0.03) { SQ.mapT0 = performance.now(); SQ.mapRaf = requestAnimationFrame(sqMapTick); }
     else if (SQ.mapT0 !== null && p < SQ_WIN[1][0] - 0.01) { SQ.mapT0 = null; if (SQ.mapRaf) cancelAnimationFrame(SQ.mapRaf); sqMap(0); }
     // Indicador lateral
-    var act = p >= SQ_WIN[1][0] ? 2 : (a >= 0.2 ? 1 : 0);
+    var act = p >= SQ_WIN[1][0] ? 2 : (u0 >= 0.3 ? 1 : 0);
     SQ.dots.forEach(function (d, j) { d.classList.toggle('on', j === act); });
   }
 
   function sqValTick(t) {
-    if (!SQ || SQ.vT0 === null) return;
-    SQ.a = clamp((t - SQ.vT0) / 7000, 0, 1);
+    if (!SQ) return;
+    SQ.vRaf = 0;
+    var run = false, i;
+    for (i = 0; i < SQ_TH.length; i++) {
+      if (SQ.st[i] === null) continue;
+      SQ.u[i] = clamp((t - SQ.st[i]) / SQ_DUR[i], 0, 1);
+      if (SQ.u[i] < 1) run = true;
+    }
     sqFrame();
-    if (SQ.a < 1) SQ.vRaf = requestAnimationFrame(sqValTick);
+    if (run) SQ.vRaf = requestAnimationFrame(sqValTick);
   }
   function sqFrame() {
     if (!SQ) return;
@@ -1022,7 +1033,7 @@ try { INITIAL = new URLSearchParams(location.search).get('page') || ''; } catch 
       sb: $$('.sb', el), sc: $$('.sc', el), vt: $('#sq-vt'), vx: $$('.vx', el), vm: $$('.vm', el),
       h1: $('#sq-h1'), hint: $('#sq-hint'), skip: $('.skip', el), bp: $('.bp', el),
       mdots: $$('.mdt', el), mlines: $$('.mln', el), min: $('.min', el), mapw: $('#sq-mapw'), mt: $('#sq-mt'),
-      dots: $$('.sdots span', el), iv: 0, raf: 0, introRaf: 0, mapT0: null, mapRaf: 0, mapShown: false, a: 0, vT0: null, vRaf: 0, static: !!calm,
+      dots: $$('.sdots span', el), iv: 0, raf: 0, introRaf: 0, mapT0: null, mapRaf: 0, mapShown: false, u: [0, 0, 0, 0, 0], st: [null, null, null, null, null], vRaf: 0, static: !!calm,
       col: false, off: 0, k: 1.5
     };
     sqNav();
