@@ -234,7 +234,12 @@ a.pill.nm:hover{border-color:#fff;color:#fff;background:rgba(255,255,255,.1)}
 .btn3{display:inline-block;padding:14px 30px;border-radius:999px;border:1.5px solid var(--o);color:var(--o);font-weight:600;font-size:16px;transition:background .3s ease,color .3s ease,transform .3s ease}
 .btn3:hover{background:var(--o);color:#020a1f;transform:translate3d(0,-2px,0)}
 .cta-row{display:flex;justify-content:center;margin-top:44px}
-.seq.hseq{height:280vh;height:280svh;margin-bottom:-24vh;margin-bottom:-24svh}
+.hband{padding-top:110px;padding-bottom:4px}
+.hband .eyebrow{margin:0 0 6px}
+.hband .yr{font-size:clamp(84px,14vw,170px)}
+.hband .rail{width:min(760px,100%);margin:26px 0 40px}
+.hband .who{align-items:flex-start;min-height:68px}
+.hband .cap{margin:14px 0 0}
 .seq.static{height:auto;margin-top:0;margin-bottom:0;padding-top:12px}
 .seq.static .seq-pin{position:static;height:auto;overflow:visible}
 .seq.static .beat{position:relative;inset:auto;padding:56px 24px;opacity:1!important;transform:none!important;visibility:visible!important}
@@ -988,19 +993,18 @@ try { INITIAL = new URLSearchParams(location.search).get('page') || ''; } catch 
     SQ.introRaf = requestAnimationFrame(sqIntro);
   }
 
-  // ----- Alumni: línea de presidentes de 1986 a hoy (con el scroll) -----
+  // ----- Alumni: franja con la línea de presidentes de 1986 a hoy (corre sola al cargar) -----
   function histSeqHtml() {
     var end = sqEnd(), span = end - SQ_START;
     var ticks = [1990, 2000, 2010, 2020].filter(function (y) { return y > SQ_START && y < end; }).map(function (y) {
       return '<span data-y="' + y + '" style="left:' + (((y - SQ_START) / span) * 100).toFixed(2) + '%">' + y + '</span>';
     }).join('');
-    return '<section class="seq hseq" id="hseq" aria-label="Our history, 1986 to today"><div class="seq-pin">' +
-      '<div class="bp" aria-hidden="true"></div>' +
-      '<a class="skip" href="#hseqend" data-skip-h>Skip animation</a>' +
-      '<div class="beat" style="opacity:1;visibility:visible"><h1 class="eyebrow" style="margin:0 0 22px">Alumni network · Our story</h1><div class="yr" id="hs-yr">' + SQ_START + '</div>' +
-      '<div class="rail"><b id="hs-bar"></b>' + ticks + '</div><div class="who" id="hs-who"></div>' +
-      '<p class="cap">' + span + ' years of Hispanic leaders at Purdue</p><div class="hint" id="hs-hint"><span>Scroll</span><i></i></div></div>' +
-      '</div></section><div id="hseqend"></div>';
+    return '<section class="wrap hband" id="hseq" aria-label="Our history, 1986 to today">' +
+      '<h1 class="eyebrow rise" style="animation-delay:.3s">Alumni network \u00b7 Our story</h1>' +
+      '<div class="yr rise" id="hs-yr" style="animation-delay:.5s">' + SQ_START + '</div>' +
+      '<div class="rail rise" style="animation-delay:.7s"><b id="hs-bar"></b>' + ticks + '</div>' +
+      '<div class="who" id="hs-who"></div>' +
+      '<p class="cap rise" style="animation-delay:.9s">' + span + ' years of Hispanic leaders at Purdue</p></section>';
   }
 
   function fillHist() {
@@ -1013,34 +1017,30 @@ try { INITIAL = new URLSearchParams(location.search).get('page') || ''; } catch 
     var cur = (d.eboard || []).filter(function (p) { return key(p.cargo) === 'president'; })[0];
     if (cur) pres[sqEnd()] = { n: cur.nombre, t: 'Today' };
     SQD.pres = pres;
-    if (HS) { HS.lastY = 0; hsFrame(); }
+    if (HS) { HS.lastY = 0; hsPaint(HS.f); }
   }
   function hsWho(y) {
     var i, e = null;
     for (i = y; i >= y - 2; i--) if (SQD.pres[i]) { e = SQD.pres[i]; break; }
-    HS.who.innerHTML = e ? '<span class="wn">' + esc(e.n) + '</span><span class="wr">President · ' + esc(e.t) + '</span>' : '';
+    HS.who.innerHTML = e ? '<span class="wn">' + esc(e.n) + '</span><span class="wr">President \u00b7 ' + esc(e.t) + '</span>' : '';
   }
-  function hsPaint(p, stat) {
-    var end = sqEnd(), f = stat ? 1 : clamp(p / 0.6, 0, 1), yr = Math.round(SQ_START + (end - SQ_START) * f);
+  function hsPaint(f) {
+    HS.f = f;
+    var end = sqEnd(), yr = Math.round(SQ_START + (end - SQ_START) * f);
     HS.bar.style.width = (f * 100).toFixed(1) + '%';
     if (yr !== HS.lastY) {
       HS.lastY = yr; HS.yr.textContent = yr; hsWho(yr);
       HS.ticks.forEach(function (t) { t.classList.toggle('on', yr >= +t.getAttribute('data-y')); });
     }
-    HS.hint.style.opacity = stat ? 0 : (1 - clamp(p / 0.05, 0, 1)).toFixed(2);
-    var so = stat ? 0 : 1 - clamp((p - 0.9) / 0.06, 0, 1);
-    HS.skip.style.opacity = so.toFixed(2);
-    HS.skip.style.pointerEvents = so < 0.5 ? 'none' : '';
   }
-  function hsFrame() {
+  function hsTick(t) {
     if (!HS) return;
-    HS.raf = 0;
-    hsPaint(HS.static ? 1 : progressOf(HS.el), HS.static);
+    var f = ease(clamp((t - HS.t0) / 6500, 0, 1));
+    hsPaint(f);
+    if (f < 1) HS.raf = requestAnimationFrame(hsTick);
   }
   function teardownHist() {
     if (!HS) return;
-    removeEventListener('scroll', HS.onScroll);
-    removeEventListener('resize', HS.onResize);
     if (HS.raf) cancelAnimationFrame(HS.raf);
     HS = null;
   }
@@ -1048,14 +1048,10 @@ try { INITIAL = new URLSearchParams(location.search).get('page') || ''; } catch 
     teardownHist();
     var el = $('#hseq');
     if (!el) return;
-    HS = { el: el, yr: $('#hs-yr'), bar: $('#hs-bar'), who: $('#hs-who'), hint: $('#hs-hint'), skip: $('.skip', el), ticks: $$('.rail span', el), lastY: 0, raf: 0, static: !!calm };
-    sqNav();
-    HS.onScroll = function () { if (HS && !HS.raf) HS.raf = requestAnimationFrame(hsFrame); };
-    HS.onResize = function () { sqNav(); if (HS) hsFrame(); };
-    if (calm) { el.classList.add('static'); hsFrame(); return; }
-    addEventListener('scroll', HS.onScroll, { passive: true });
-    addEventListener('resize', HS.onResize);
-    hsFrame();
+    HS = { el: el, yr: $('#hs-yr'), bar: $('#hs-bar'), who: $('#hs-who'), ticks: $$('.rail span', el), lastY: 0, f: 0, raf: 0 };
+    if (calm) { hsPaint(1); return; }
+    HS.t0 = performance.now() + 900;
+    HS.raf = requestAnimationFrame(hsTick);
   }
 
   // ---------- Navegación ----------
@@ -1091,8 +1087,6 @@ try { INITIAL = new URLSearchParams(location.search).get('page') || ''; } catch 
 
   document.addEventListener('click', function (e) {
     var t = e.target;
-    var sh = t.closest && t.closest('[data-skip-h]');
-    if (sh) { e.preventDefault(); var he = $('#hseqend'); if (he) he.scrollIntoView({ behavior: calm ? 'auto' : 'smooth' }); return; }
     var sk = t.closest && t.closest('[data-skip]');
     if (sk) { e.preventDefault(); var se = $('#seqend'); if (se) se.scrollIntoView({ behavior: calm ? 'auto' : 'smooth' }); return; }
     var r = t.closest && t.closest('[data-route]');
