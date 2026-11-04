@@ -193,13 +193,23 @@ a.pill.nm:hover{border-color:#fff;color:#fff;background:rgba(255,255,255,.1)}
 .nav-wrap{position:sticky;top:0;z-index:50;pointer-events:none}
 .nav-wrap .nav{pointer-events:auto}
 #seqend,#hseqend{scroll-margin-top:calc(var(--navh,100px) - 8px)}
-.seq{position:relative;height:500vh;height:500svh;margin-top:calc(var(--navh,100px)*-1);margin-bottom:-30vh;margin-bottom:-30svh}
+.seq{position:relative;height:620vh;height:620svh;margin-top:calc(var(--navh,100px)*-1);margin-bottom:0}
 .seq-pin{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden}
 .bp{position:absolute;inset:0;pointer-events:none;background-image:linear-gradient(rgba(114,169,190,.11) 1px,transparent 1px),linear-gradient(90deg,rgba(114,169,190,.11) 1px,transparent 1px);background-size:56px 56px;-webkit-mask-image:radial-gradient(ellipse at 50% 46%,#000,transparent 72%);mask-image:radial-gradient(ellipse at 50% 46%,#000,transparent 72%)}
 .beat{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:0 24px;opacity:0;visibility:hidden;will-change:opacity,transform}
-.sym{height:min(30vh,270px);height:min(30svh,270px);width:auto;overflow:visible;display:block}
+.sym{height:clamp(120px,19vh,170px);width:auto;overflow:visible;display:block;flex:none;transform-origin:50% 50%;will-change:transform}
+.sb,.sc{stroke-width:5;stroke-linejoin:round;stroke-dasharray:1;stroke-dashoffset:1}
+.sc{fill-opacity:0;fill-rule:evenodd}
+.sb{fill:none}
+.ivs{display:flex;align-items:center;justify-content:center;gap:clamp(28px,5vw,72px)}
+.vals{display:flex;flex-direction:column;align-items:flex-start;gap:10px}
+.vt{display:block;width:min(290px,70vw);height:auto;overflow:visible;margin-bottom:8px}
+.vr{display:flex;align-items:center;gap:clamp(16px,2.4vw,32px)}
+.vw{display:block;width:clamp(190px,19vw,270px);height:auto;overflow:visible;flex:none}
+.vm{max-width:300px;text-align:left;font-size:clamp(14px,1.4vw,18px);line-height:1.35;color:var(--mut);opacity:0}
+.sq-h1{position:absolute;left:0;right:0;top:calc(50% + var(--lh,230px)/2 - 20px);margin:0 auto}
 .sp{stroke-width:5;stroke-linejoin:round;stroke-dasharray:1;stroke-dashoffset:1;fill-opacity:0;fill-rule:evenodd}
-.sq-h1{margin:30px 0 0;max-width:920px;font-size:clamp(40px,7vw,96px);line-height:1;letter-spacing:-.045em;font-weight:700;color:#fff}
+.sq-h1{max-width:920px;padding:0 24px;font-size:clamp(40px,7vw,96px);line-height:1;letter-spacing:-.045em;font-weight:700;color:#fff}
 .hint{position:absolute;bottom:36px;left:0;right:0;display:flex;flex-direction:column;align-items:center;gap:8px;font-size:12px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--dim)}
 .hint i{display:block;width:1px;height:34px;background:linear-gradient(var(--o),rgba(242,101,52,0));animation:bob 1.8s ease-in-out infinite}
 @keyframes bob{0%,100%{transform:translate3d(0,-4px,0);opacity:.5}50%{transform:translate3d(0,6px,0);opacity:1}}
@@ -246,7 +256,11 @@ a.pill.nm:hover{border-color:#fff;color:#fff;background:rgba(255,255,255,.1)}
 .seq.static .sdots,.seq.static .skip,.seq.static .hint,.seq.static .bp{display:none}
 .seq.static .mt{opacity:1!important;transform:none!important}
 @media (max-width:760px){
-  .seq{margin-bottom:-18vh;margin-bottom:-18svh}
+  .ivs{flex-direction:column;gap:20px}
+  .sym{height:84px}
+  .vals{align-items:center}
+  .vr{flex-direction:column;gap:2px;text-align:center}
+  .vm{text-align:center;max-width:280px}
   .mapw{flex-direction:column;gap:14px}
   .map{height:44vh;height:44svh}
   .mt{text-align:center}
@@ -754,7 +768,7 @@ try { INITIAL = new URLSearchParams(location.search).get('page') || ''; } catch 
       if (FAILED) { fillEboard(); var t = $('#tiers'); if (t) t.innerHTML = loading(); var a = $('#agrid'); if (a) a.innerHTML = loading(); var hh = $('#hlsecs'); if (hh) hh.innerHTML = loading(); }
       return;
     }
-    fillMarquee(); fillNamesBelt(); fillAbout(); fillEboard(); fillSponsors(); fillHighlights(); fillAlumni(); fillSeq(); fillHist();
+    fillMarquee(); fillNamesBelt(); fillAbout(); fillEboard(); fillSponsors(); fillHighlights(); fillAlumni(); fillHist();
   }
 
   // ---------- Reveal, tarjetas y glow ----------
@@ -828,7 +842,7 @@ try { INITIAL = new URLSearchParams(location.search).get('page') || ''; } catch 
   var SQ_DOTS = [["Mexico",246.8,79.4],["Cuba",296.9,83.1],["Haiti",310.5,90.6],["Dominican Rep.",315.6,90.7],["Puerto Rico",324.6,92.6],["Guatemala",268.4,99.4],["Honduras",276.9,101.8],["El Salvador",271.3,104.8],["Nicaragua",280.1,107.2],["Costa Rica",281.4,115.1],["Panama",290.7,119],["Venezuela",323.3,122.7],["Colombia",306.8,131.5],["Ecuador",294.2,146.2],["Peru",302.9,169.5],["Brazil",357.1,174.9],["Bolivia",328.5,187.8],["Paraguay",344.6,205.6],["Uruguay",353.6,231.8],["Chile",320.2,232.4],["Argentina",334.1,235.2]];
   var SQ_IN = [290.3, 31.8];
   var SQ_START = 1986;
-  var SQ_WIN = [[0, 0.18], [0.18, 0.68], [0.68, 1]];
+  var SQ_WIN = [[0, 0.6], [0.6, 1]];
   var SQD = { pres: {}, stats: [] };
   var SQ = null, HS = null;
 
@@ -846,8 +860,25 @@ try { INITIAL = new URLSearchParams(location.search).get('page') || ''; } catch 
   }
 
   // ----- Home -----
+  var SQ_VALUES = [
+    { w: 'Familia', s: 'Strength from a supportive, welcoming community', c: '#F16835' },
+    { w: 'Service', s: 'Using our skills and resources to give back', c: '#D44025' },
+    { w: 'Education', s: 'Lifelong learning, career growth, leadership', c: '#1070B8' },
+    { w: 'Resilience', s: 'Leaning on community to adapt and thrive', c: '#74A9BD' }
+  ];
+  function sqPiece(c) {
+    for (var i = 0; i < SQ_SYMBOL.length; i++) if (SQ_SYMBOL[i][0].toLowerCase() === c.toLowerCase()) return SQ_SYMBOL[i];
+    return SQ_SYMBOL[0];
+  }
+  var SQ_DASH = 'stroke-dasharray="400 2000" stroke-dashoffset="400"';
+
   function seqHtml() {
-    var sym = SQ_SYMBOL.map(function (s) { return '<path class="sp" pathLength="1" d="' + s[1] + '" fill="' + s[0] + '" stroke="' + s[0] + '"/>'; }).join('');
+    var base = SQ_SYMBOL.map(function (s) { return '<path class="sb" pathLength="1" d="' + s[1] + '" fill="none" stroke="rgba(185,197,224,.55)"/>'; }).join('');
+    var col = SQ_VALUES.map(function (v) { var pc = sqPiece(v.c); return '<path class="sc" pathLength="1" d="' + pc[1] + '" fill="' + pc[0] + '" stroke="' + pc[0] + '"/>'; }).join('');
+    var title = '<svg class="vt" viewBox="0 0 290 30" role="heading" aria-level="2" aria-label="Our Core Values"><text id="sq-vt" x="0" y="23" fill="#B9C5E0" fill-opacity="0" stroke="#B9C5E0" stroke-width="1" ' + SQ_DASH + ' style="font-size:23px;letter-spacing:3.4px">OUR CORE VALUES</text></svg>';
+    var rows = SQ_VALUES.map(function (v) {
+      return '<div class="vr"><svg class="vw" viewBox="0 0 270 54" role="img" aria-label="' + esc(v.w) + '"><text class="vx" x="1" y="42" fill="' + v.c + '" fill-opacity="0" stroke="' + v.c + '" stroke-width="1.4" ' + SQ_DASH + ' style="font-size:42px;letter-spacing:-1.2px">' + esc(v.w) + '</text></svg><div class="vm">' + esc(v.s) + '</div></div>';
+    }).join('');
     var map = '<svg class="map" viewBox="205 0 200 300" role="img" aria-label="Map of the Americas with a dot in each Latin American country, all connecting to Indiana"><path d="' + SQ_LAND + '" fill="rgba(255,255,255,.08)" stroke="rgba(255,255,255,.26)" stroke-width="0.8"/>';
     SQ_DOTS.forEach(function (d) {
       var cx = (d[1] + SQ_IN[0]) / 2 + (d[1] < SQ_IN[0] ? -45 : 45), cy = (d[2] + SQ_IN[1]) / 2;
@@ -859,37 +890,12 @@ try { INITIAL = new URLSearchParams(location.search).get('page') || ''; } catch 
       '<div class="bp" aria-hidden="true"></div>' +
       '<a class="skip" href="#seqend" data-skip>Skip intro</a>' +
       '<div class="sdots" aria-hidden="true"><span></span><span></span><span></span></div>' +
-      '<div class="beat" data-i="0"><svg class="sym" viewBox="0 0 685 655" role="img" aria-label="SHPE symbol">' + sym + '</svg>' +
-        '<h1 class="sq-h1 rise" style="animation-delay:.4s"><span class="block">Welcome to</span><span class="block o">SHPE Purdue</span></h1>' +
+      '<div class="beat" data-i="0"><div class="ivs" id="sq-ivs"><svg class="sym" id="sq-sym" viewBox="0 0 685 655" role="img" aria-label="SHPE symbol">' + base + col + '</svg>' +
+        '<div class="vals" id="sq-vals">' + title + rows + '</div></div>' +
+        '<h1 class="sq-h1 rise" id="sq-h1" style="animation-delay:.4s"><span class="block">Welcome to</span><span class="block o">SHPE Purdue</span></h1>' +
         '<div class="hint" id="sq-hint"><span>Scroll</span><i></i></div></div>' +
       '<div class="beat" data-i="1"><div class="mapw" id="sq-mapw">' + map + '<div class="mt" id="sq-mt"><h2>A worldwide familia</h2><p>in West Lafayette, Indiana</p></div></div></div>' +
-      '<div class="beat" data-i="2"><div class="stats" id="sq-stats"></div></div>' +
       '</div></section><div id="seqend"></div>';
-  }
-
-  function fillSeq() {
-    var box = $('#sq-stats');
-    if (!box) return;
-    var d = DATA || {}, st = [];
-    var hl = d.highlights || [], mx = 0;
-    hl.forEach(function (h) { mx = Math.max(mx, termRank(h.semestre)); });
-    if (mx) {
-      var latest = hl.filter(function (h) { return termRank(h.semestre) === mx; });
-      st.push({ v: latest.length, l: 'events in ' + String(latest[0].semestre).replace(/\s+/g, ' ').trim() });
-    }
-    var sp = (d.sponsors || []).filter(function (s) { return !/^coming soon/i.test(s.nombre); }).length;
-    if (sp) st.push({ v: sp, l: 'sponsors' });
-    var team = (d.eboard || []).length, past = (d.alumni || []).length;
-    if (team + past) st.push({ v: team + past, l: 'officers in our history', plus: past > 0 });
-    if (team) st.push({ v: team, l: 'on this year’s E-Board' });
-    if (!st.length) {
-      box.innerHTML = '<div class="fb">Professional development.<br>Mentorship.<br><span class="o">Community.</span></div>';
-    } else {
-      box.innerHTML = st.map(function (s) { return '<div class="st"><div class="n">0</div><div class="l">' + esc(s.l) + '</div></div>'; }).join('');
-      $$('.st .n', box).forEach(function (n, i) { st[i].node = n; });
-    }
-    SQD.stats = st;
-    if (SQ) sqFrame();
   }
 
   function sqMap(T) {
@@ -909,47 +915,69 @@ try { INITIAL = new URLSearchParams(location.search).get('page') || ''; } catch 
     if (T < 1) SQ.mapRaf = requestAnimationFrame(sqMapTick);
   }
 
+  // Mide dónde queda el logo cuando se mueve a la izquierda (o arriba, en móvil)
+  function sqMeasure() {
+    if (!SQ) return;
+    var cs = getComputedStyle(SQ.ivs), col = cs.flexDirection === 'column';
+    var gap = parseFloat(col ? cs.rowGap : cs.columnGap) || 30;
+    var vr = SQ.vals.getBoundingClientRect(), vh = innerHeight;
+    var lh = col ? Math.min(0.24 * vh, 210) : Math.min(0.3 * vh, 270);
+    SQ.col = col;
+    SQ.off = ((col ? vr.height : vr.width) + gap) / 2;
+    SQ.k = Math.max(1, lh / (SQ.sym.offsetHeight || 150));
+    SQ.beats[0].style.setProperty('--lh', lh.toFixed(0) + 'px');
+  }
+
+  function sqText(node, t) {
+    node.setAttribute('stroke-dashoffset', (400 - 170 * ease(t)).toFixed(1));
+    node.setAttribute('fill-opacity', clamp((t - 0.7) / 0.3, 0, 1).toFixed(2));
+  }
+
   function sqPaint(p, stat) {
-    var L = [], k, W, en, lv, op, y;
-    for (k = 0; k < 3; k++) {
+    var L = [], k, W, en, lv, op, y, last = SQ_WIN.length - 1;
+    for (k = 0; k <= last; k++) {
       W = SQ_WIN[k];
       L[k] = stat ? 1 : clamp((p - W[0]) / (W[1] - W[0]), 0, 1);
       if (stat) continue;
       en = k === 0 ? 1 : clamp((p - W[0]) / 0.03, 0, 1);
-      lv = k === 2 ? 1 : clamp((W[1] - p) / 0.03, 0, 1);
+      lv = k === last ? 1 : clamp((W[1] - p) / 0.03, 0, 1);
       op = Math.min(en, lv);
       y = (1 - en) * 36 - (1 - lv) * 36;
       SQ.beats[k].style.opacity = op.toFixed(3);
       SQ.beats[k].style.transform = 'translate3d(0,' + y.toFixed(1) + 'px,0)';
       SQ.beats[k].style.visibility = op <= 0.001 ? 'hidden' : 'visible';
     }
-    // 1 · Welcome: el logo se dibuja como plano y luego se rellena de color
-    var draw = stat ? 1 : Math.max(SQ.iv, clamp(L[0] / 0.3, 0, 1));
-    var fill = stat ? 1 : clamp((L[0] - 0.08) / 0.34, 0, 1);
-    SQ.sp.forEach(function (n, i) {
-      n.style.strokeDashoffset = (1 - ease(clamp((draw - i * 0.14) / 0.58, 0, 1))).toFixed(3);
-      n.style.fillOpacity = clamp((fill - i * 0.06) / 0.5, 0, 1).toFixed(3);
-    });
-    SQ.hint.style.opacity = stat ? 0 : (1 - clamp(p / 0.04, 0, 1)).toFixed(2);
+    var a = L[0], i;
+    // 1 · Welcome: el logo se dibuja como plano
+    var draw = stat ? 1 : Math.max(SQ.iv, clamp(a / 0.1, 0, 1));
+    SQ.sb.forEach(function (n, j) { n.style.strokeDashoffset = (1 - ease(clamp((draw - j * 0.14) / 0.58, 0, 1))).toFixed(3); });
+    SQ.h1.style.opacity = stat ? 0 : (1 - clamp((a - 0.1) / 0.05, 0, 1)).toFixed(2);
+    SQ.hint.style.opacity = stat ? 0 : (1 - clamp(p / 0.03, 0, 1)).toFixed(2);
     var so = stat ? 0 : 1 - clamp((p - 0.9) / 0.06, 0, 1);
     SQ.skip.style.opacity = so.toFixed(2);
     SQ.skip.style.pointerEvents = so < 0.5 ? 'none' : '';
-    SQ.bp.style.opacity = stat ? 1 : (1 - 0.7 * clamp((p - 0.12) / 0.12, 0, 1)).toFixed(2);
-    // 2 · Mapa: el scroll solo lo activa; la animación corre sola (sqMapTick)
+    SQ.bp.style.opacity = stat ? 1 : (1 - 0.7 * clamp((p - 0.06) / 0.1, 0, 1)).toFixed(2);
+    // 2 · El logo se mueve y se escriben los Core Values, uno por uno con su pieza
+    var t = stat ? 1 : ease(clamp((a - 0.09) / 0.12, 0, 1));
+    var tx = SQ.col ? 0 : SQ.off * (1 - t), ty = (SQ.col ? SQ.off * (1 - t) : 0) - 46 * (1 - t);
+    SQ.sym.style.transform = 'translate3d(' + tx.toFixed(1) + 'px,' + ty.toFixed(1) + 'px,0) scale(' + (SQ.k + (1 - SQ.k) * t).toFixed(3) + ')';
+    sqText(SQ.vt, stat ? 1 : clamp((a - 0.22) / 0.09, 0, 1));
+    for (i = 0; i < 4; i++) {
+      var s = 0.33 + 0.15 * i, pc = stat ? 1 : ease(clamp((a - s) / 0.05, 0, 1));
+      SQ.sc[i].style.strokeDashoffset = (1 - pc).toFixed(3);
+      SQ.sc[i].style.fillOpacity = stat ? 1 : clamp((a - s - 0.03) / 0.05, 0, 1).toFixed(2);
+      sqText(SQ.vx[i], stat ? 1 : clamp((a - s - 0.015) / 0.06, 0, 1));
+      var mo = stat ? 1 : clamp((a - s - 0.07) / 0.04, 0, 1);
+      SQ.vm[i].style.opacity = mo.toFixed(2);
+      SQ.vm[i].style.transform = 'translate3d(' + ((1 - mo) * 10).toFixed(1) + 'px,0,0)';
+    }
+    // 3 · Mapa: el scroll solo lo activa; la animación corre sola (sqMapTick)
     if (stat) { SQ.mapT0 = null; sqMap(1); }
-    else if (SQ.mapT0 === null && p >= SQ_WIN[1][0] + 0.03 && p < SQ_WIN[2][0]) { SQ.mapT0 = performance.now(); SQ.mapRaf = requestAnimationFrame(sqMapTick); }
+    else if (SQ.mapT0 === null && p >= SQ_WIN[1][0] + 0.03) { SQ.mapT0 = performance.now(); SQ.mapRaf = requestAnimationFrame(sqMapTick); }
     else if (SQ.mapT0 !== null && p < SQ_WIN[1][0] - 0.01) { SQ.mapT0 = null; if (SQ.mapRaf) cancelAnimationFrame(SQ.mapRaf); sqMap(0); }
-    // 3 · Números
-    var c = ease(clamp(L[2] / 0.4, 0, 1));
-    SQD.stats.forEach(function (s) {
-      if (!s.node) return;
-      var t = fmtN(Math.round(s.v * c)) + (s.plus && c >= 1 ? '<i>+</i>' : '');
-      if (s.shown !== t) { s.shown = t; s.node.innerHTML = t; }
-    });
     // Indicador lateral
-    var act = 0;
-    for (k = 0; k < 3; k++) if (p >= SQ_WIN[k][0]) act = k;
-    SQ.dots.forEach(function (d, i) { d.classList.toggle('on', i === act); });
+    var act = p >= SQ_WIN[1][0] ? 2 : (a >= 0.2 ? 1 : 0);
+    SQ.dots.forEach(function (d, j) { d.classList.toggle('on', j === act); });
   }
 
   function sqFrame() {
@@ -978,14 +1006,18 @@ try { INITIAL = new URLSearchParams(location.search).get('page') || ''; } catch 
     var el = $('#seq');
     if (!el) return;
     SQ = {
-      el: el, beats: $$('.beat', el), sp: $$('.sp', el), hint: $('#sq-hint'), skip: $('.skip', el), bp: $('.bp', el),
+      el: el, beats: $$('.beat', el), ivs: $('#sq-ivs'), sym: $('#sq-sym'), vals: $('#sq-vals'),
+      sb: $$('.sb', el), sc: $$('.sc', el), vt: $('#sq-vt'), vx: $$('.vx', el), vm: $$('.vm', el),
+      h1: $('#sq-h1'), hint: $('#sq-hint'), skip: $('.skip', el), bp: $('.bp', el),
       mdots: $$('.mdt', el), mlines: $$('.mln', el), min: $('.min', el), mapw: $('#sq-mapw'), mt: $('#sq-mt'),
-      dots: $$('.sdots span', el), iv: 0, raf: 0, introRaf: 0, mapT0: null, mapRaf: 0, mapShown: false, static: !!calm
+      dots: $$('.sdots span', el), iv: 0, raf: 0, introRaf: 0, mapT0: null, mapRaf: 0, mapShown: false, static: !!calm,
+      col: false, off: 0, k: 1.5
     };
     sqNav();
     SQ.onScroll = function () { if (SQ && !SQ.raf) SQ.raf = requestAnimationFrame(sqFrame); };
-    SQ.onResize = function () { sqNav(); if (SQ) sqFrame(); };
+    SQ.onResize = function () { sqNav(); sqMeasure(); if (SQ) sqFrame(); };
     if (calm) { el.classList.add('static'); sqFrame(); return; }
+    sqMeasure();
     addEventListener('scroll', SQ.onScroll, { passive: true });
     addEventListener('resize', SQ.onResize);
     SQ.t0 = performance.now();
