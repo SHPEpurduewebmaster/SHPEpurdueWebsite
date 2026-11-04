@@ -190,8 +190,10 @@ a.pill.nm:hover{border-color:#fff;color:#fff;background:rgba(255,255,255,.1)}
 .hsub{margin:0 0 22px;max-width:640px;font-size:16px;line-height:1.5;color:var(--mut)}
 
 /* Secuencia de bienvenida del Home (scroll) */
-.nav-wrap{position:relative;z-index:6}
-.seq{position:relative;height:460vh;height:460svh;margin-top:calc(var(--navh,100px)*-1)}
+.nav-wrap{position:sticky;top:0;z-index:50;pointer-events:none}
+.nav-wrap .nav{pointer-events:auto}
+#seqend{scroll-margin-top:calc(var(--navh,100px) - 8px)}
+.seq{position:relative;height:700vh;height:700svh;margin-top:calc(var(--navh,100px)*-1);margin-bottom:-30vh;margin-bottom:-30svh}
 .seq-pin{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden}
 .bp{position:absolute;inset:0;pointer-events:none;background-image:linear-gradient(rgba(114,169,190,.11) 1px,transparent 1px),linear-gradient(90deg,rgba(114,169,190,.11) 1px,transparent 1px);background-size:56px 56px;-webkit-mask-image:radial-gradient(ellipse at 50% 46%,#000,transparent 72%);mask-image:radial-gradient(ellipse at 50% 46%,#000,transparent 72%)}
 .beat{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:0 24px;opacity:0;visibility:hidden;will-change:opacity,transform}
@@ -232,12 +234,13 @@ a.pill.nm:hover{border-color:#fff;color:#fff;background:rgba(255,255,255,.1)}
 .btn3{display:inline-block;padding:14px 30px;border-radius:999px;border:1.5px solid var(--o);color:var(--o);font-weight:600;font-size:16px;transition:background .3s ease,color .3s ease,transform .3s ease}
 .btn3:hover{background:var(--o);color:#020a1f;transform:translate3d(0,-2px,0)}
 .cta-row{display:flex;justify-content:center;margin-top:44px}
-.seq.static{height:auto;margin-top:0;padding-top:12px}
+.seq.static{height:auto;margin-top:0;margin-bottom:0;padding-top:12px}
 .seq.static .seq-pin{position:static;height:auto;overflow:visible}
 .seq.static .beat{position:relative;inset:auto;padding:56px 24px;opacity:1!important;transform:none!important;visibility:visible!important}
 .seq.static .sdots,.seq.static .skip,.seq.static .hint,.seq.static .bp{display:none}
 .seq.static .mt{opacity:1!important;transform:none!important}
 @media (max-width:760px){
+  .seq{margin-bottom:-18vh;margin-bottom:-18svh}
   .mapw{flex-direction:column;gap:14px}
   .map{height:44vh;height:44svh}
   .mt{text-align:center}
@@ -260,7 +263,8 @@ footer{margin-top:72px}
 .foot .soc a{padding:12px 0}
 
 @media (max-width:900px){
-  .nav{border-radius:28px;padding:14px}
+  .nav-wrap{padding-top:10px}
+  .nav{border-radius:28px;padding:12px 14px}
   .logo-slot,.logo-img{height:44px}
   .logo-slot{width:auto!important;min-width:96px;padding:0 10px}
   .sep{height:30px}
@@ -818,7 +822,7 @@ try { INITIAL = new URLSearchParams(location.search).get('page') || ''; } catch 
   var SQ_DOTS = [["Mexico",246.8,79.4],["Cuba",296.9,83.1],["Haiti",310.5,90.6],["Dominican Rep.",315.6,90.7],["Puerto Rico",324.6,92.6],["Guatemala",268.4,99.4],["Honduras",276.9,101.8],["El Salvador",271.3,104.8],["Nicaragua",280.1,107.2],["Costa Rica",281.4,115.1],["Panama",290.7,119],["Venezuela",323.3,122.7],["Colombia",306.8,131.5],["Ecuador",294.2,146.2],["Peru",302.9,169.5],["Brazil",357.1,174.9],["Bolivia",328.5,187.8],["Paraguay",344.6,205.6],["Uruguay",353.6,231.8],["Chile",320.2,232.4],["Argentina",334.1,235.2]];
   var SQ_IN = [290.3, 31.8];
   var SQ_START = 1986;
-  var SQ_WIN = [[0, 0.22], [0.22, 0.46], [0.46, 0.8], [0.8, 1]];
+  var SQ_WIN = [[0, 0.14], [0.14, 0.34], [0.34, 0.8], [0.8, 1]];
   var SQD = { pres: {}, stats: [] };
   var SQ = null;
 
@@ -912,8 +916,8 @@ try { INITIAL = new URLSearchParams(location.search).get('page') || ''; } catch 
       SQ.beats[k].style.visibility = op <= 0.001 ? 'hidden' : 'visible';
     }
     // 1 · Welcome: el logo se dibuja como plano y luego se rellena de color
-    var draw = stat ? 1 : Math.max(SQ.iv, clamp(L[0] / 0.45, 0, 1));
-    var fill = stat ? 1 : clamp((L[0] - 0.12) / 0.5, 0, 1);
+    var draw = stat ? 1 : Math.max(SQ.iv, clamp(L[0] / 0.3, 0, 1));
+    var fill = stat ? 1 : clamp((L[0] - 0.08) / 0.34, 0, 1);
     SQ.sp.forEach(function (n, i) {
       n.style.strokeDashoffset = (1 - ease(clamp((draw - i * 0.14) / 0.58, 0, 1))).toFixed(3);
       n.style.fillOpacity = clamp((fill - i * 0.06) / 0.5, 0, 1).toFixed(3);
@@ -924,7 +928,7 @@ try { INITIAL = new URLSearchParams(location.search).get('page') || ''; } catch 
     SQ.skip.style.pointerEvents = so < 0.5 ? 'none' : '';
     SQ.bp.style.opacity = stat ? 1 : (1 - 0.7 * clamp((p - 0.12) / 0.12, 0, 1)).toFixed(2);
     // 2 · Historia: el contador corre de 1986 al año actual
-    var end = sqEnd(), f = clamp(L[1] / 0.88, 0, 1), yr = Math.round(SQ_START + (end - SQ_START) * f);
+    var end = sqEnd(), f = clamp(L[1] / 0.6, 0, 1), yr = Math.round(SQ_START + (end - SQ_START) * f);
     SQ.bar.style.width = (f * 100).toFixed(1) + '%';
     if (yr !== SQ.lastY) {
       SQ.lastY = yr; SQ.yr.textContent = yr; sqWho(yr);
@@ -932,15 +936,15 @@ try { INITIAL = new URLSearchParams(location.search).get('page') || ''; } catch 
     }
     // 3 · Mapa: los puntos aparecen, se conectan y se funden en Indiana
     var l2 = L[2];
-    SQ.mdots.forEach(function (n, i) { n.setAttribute('opacity', clamp((l2 - i * 0.012) / 0.05, 0, 1).toFixed(2)); });
-    SQ.mlines.forEach(function (n, i) { n.style.strokeDashoffset = (1 - ease(clamp((l2 - 0.26 - i * 0.012) / 0.3, 0, 1))).toFixed(3); });
-    SQ.min.setAttribute('opacity', clamp((l2 - 0.58) / 0.08, 0, 1).toFixed(2));
-    SQ.mapw.classList.toggle('go', l2 > 0.64);
-    var to = stat ? 1 : clamp((l2 - 0.7) / 0.18, 0, 1);
+    SQ.mdots.forEach(function (n, i) { n.setAttribute('opacity', clamp((l2 - i * 0.008) / 0.04, 0, 1).toFixed(2)); });
+    SQ.mlines.forEach(function (n, i) { n.style.strokeDashoffset = (1 - ease(clamp((l2 - 0.18 - i * 0.009) / 0.2, 0, 1))).toFixed(3); });
+    SQ.min.setAttribute('opacity', clamp((l2 - 0.44) / 0.06, 0, 1).toFixed(2));
+    SQ.mapw.classList.toggle('go', l2 > 0.5);
+    var to = stat ? 1 : clamp((l2 - 0.52) / 0.14, 0, 1);
     SQ.mt.style.opacity = to.toFixed(2);
     SQ.mt.style.transform = 'translate3d(0,' + ((1 - to) * 16).toFixed(1) + 'px,0)';
     // 4 · Números
-    var c = ease(clamp(L[3] / 0.55, 0, 1));
+    var c = ease(clamp(L[3] / 0.4, 0, 1));
     SQD.stats.forEach(function (s) {
       if (!s.node) return;
       var t = fmtN(Math.round(s.v * c)) + (s.plus && c >= 1 ? '<i>+</i>' : '');
